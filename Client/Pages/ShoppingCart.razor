@@ -1,0 +1,228 @@
+﻿@page "/ShoppingCart"
+
+<h3>ShoppingCart</h3>
+<MyMessage Msg="@Msg" IsError="@IsError" />
+@if (Cart != null)
+{
+    @if (Cart.baskets.Count == 0)
+    {
+        <p>Your cart is empty</p>
+    }
+    else
+    {
+
+        @foreach (PurchaseBasketData basketData in Cart.baskets)
+        {
+
+            <PurchaseBasket purchaseBasket="@basketData" Modifiable="true" OnProductChanged="@UpdateCart" ShowUser="false"></PurchaseBasket>
+
+        }
+
+
+        <div class="col-12 row">
+            <div class="col-12 row" style="text-align:right; font:bold 16px">Total Price: @Price&#8362 </div>
+        </div>
+        <div>
+            <br /><br /><br /><br /><br />
+        </div>
+
+        <EditForm Model="@PurchaseRequestModel" OnValidSubmit="@Submit">
+
+            <div>
+                <h3 style="font-weight:bold; color:purple">Perform Purchase</h3>
+            </div>
+            <div>
+                <br />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <RadzenFieldset Text="Credit Card Info">
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Card #" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="CardNumber" @bind-Value="PurchaseRequestModel.CardNumber" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Expiry Date" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenDatePicker style="width: 100%;" Name="ExpireDate" @bind-Value="PurchaseRequestModel.ExpireDate" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Cardholder" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="Holder" @bind-Value="PurchaseRequestModel.Holder" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="CVV" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="CVV" @bind-Value="PurchaseRequestModel.CVV" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="ID" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="ID" @bind-Value="PurchaseRequestModel.ID" />
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+                </div>
+                <div class="col-md-6">
+                    <RadzenFieldset Text="Supply Address Info">
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Name" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="NameToAddress" @bind-Value="PurchaseRequestModel.NameToAddress" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Address" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="Address" @bind-Value="PurchaseRequestModel.Address" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Country" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="Country" @bind-Value="PurchaseRequestModel.Country" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="City" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="City" @bind-Value="PurchaseRequestModel.City" />
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:4px;">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="ZIP" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox style="width: 100%;" Name="Zip" @bind-Value="PurchaseRequestModel.Zip" />
+                            </div>
+                        </div>
+                    </RadzenFieldset>
+                </div>
+            </div>
+                <br />
+                <div class="col-12 row">
+                    <span class="col-12"></span>
+                    <input type="submit" class="form-control col-6 btn btn-primary" value="Purchase" />
+                </div>
+                <br />
+        </EditForm>
+    }
+}
+
+
+@code {
+    public CartData Cart { get; set; }
+    public string Username { get; set; }
+    public string Msg { get; set; }
+    public string PurchaseMesssage { get; set; }
+    public double Price
+    {
+        get
+        {
+            double price = 0;
+            if (Cart != null && Cart.baskets.Count != 0)
+            {
+                foreach (PurchaseBasketData purchaseBasket in Cart.baskets)
+                {
+                    price += purchaseBasket.Price;
+                }
+            }
+
+            return price;
+        }
+    }
+    public bool IsError { get; set; }
+
+    public class PurchaseModel
+    {
+        public string CardNumber { get; set; }
+        public DateTime ExpireDate { get; set; }
+        public string Holder { get; set; }
+        public string CVV { get; set; }
+        public string ID { get; set; }
+
+        public string NameToAddress { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string Zip { get; set; }
+
+        public string GetPaymentDetails()
+        {
+            string month = ExpireDate == null ? "" : ExpireDate.Month.ToString();
+            string year = ExpireDate == null ? "" : ExpireDate.Year.ToString();
+            string paymentDetails = $"{CardNumber}&{month}&{year}&{Holder}&{CVV}&{ID}";
+            return paymentDetails;
+        }
+
+        public string GetSupplyDetails()
+        {
+            string supplyDetails = $"{NameToAddress}&{Address}&{Country}&{City}&{Zip}";
+            return supplyDetails;
+        }
+    }
+
+    public PurchaseModel PurchaseRequestModel { get; set; }
+    protected async override Task OnInitializedAsync()
+    {
+        Username = await ((MyAuthenticationStateProvider)AuthenticationStateProvider).GetLoggedInUsername();
+        PurchaseRequestModel = new PurchaseModel();
+        UpdateCart();
+    }
+
+    private async void UpdateCart()
+    {
+        GetUsersCartResponse response = await service.GetCart(Username);
+        Cart = response.Cart;
+        if (Cart is null)
+        {
+            Msg = response.Error;
+            IsError = true;
+        }
+    }
+
+    private async void Submit()
+    {
+        PurchaseRequest request = new PurchaseRequest(Username, PurchaseRequestModel.GetSupplyDetails(), PurchaseRequestModel.GetPaymentDetails());
+        PurchaseResponse response = await service.GetResponse<PurchaseRequest, PurchaseResponse>(request);
+
+        if (response.Success)
+        {
+            Msg = "The purchase was perfomed successfully";
+            IsError = false;
+            PurchaseRequestModel = new PurchaseModel();
+            UpdateCart();
+            StateHasChanged();
+        }
+        else
+        {
+            Msg = response.Error;
+            IsError = true;
+        }
+    }
+}

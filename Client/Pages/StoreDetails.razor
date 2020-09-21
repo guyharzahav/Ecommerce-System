@@ -1,0 +1,63 @@
+﻿@page "/Stores/{storeid:int}"
+
+<h2>Store Details</h2>
+@if (Store == null)
+{
+    <p>No such store</p>
+}
+else
+{
+<div>
+    <p>Store Id: @StoreId</p>
+    <p>Store Owner(s): @ListToString(Store.Owners)</p>
+    <p>Store Manager(s): @ListToString(Store.Mangers)</p>
+</div>
+    @if (Store.Products == null || Store.Products.invProducts.Count == 0)
+    {
+        <p><em>Sorry, there are no available products in this store right now :(</em></p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Tuple<ProductData, int> product in Store.Products.invProducts)
+                {
+                    <tr>
+                        <ProductRow StoreId="@StoreId" Product="@product.Item1"/>
+                        <td>@product.Item2</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
+}
+
+
+@code {
+    [Parameter]
+    public int StoreId { get; set; }
+    public StoreData Store { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        GetStoreByIdRequest request = new GetStoreByIdRequest(StoreId);
+        GetStoreByIdResponse response = await service.GetResponse<GetStoreByIdRequest, GetStoreByIdResponse>(request);
+        Store = response.Store;
+    }
+
+    private string ListToString(List<string> list)
+    {
+        return String.Join(", ", list.ToArray());
+    }
+}

@@ -1,0 +1,10 @@
+{"Username":"UA1","Password":"UA1","_Opcode":3}
+{"Username":"UA1","_Opcode":45}
+{"Username":"U11","Password":"U11","_Opcode":3}
+{"Username":"U12","Password":"U12","_Opcode":3}
+{"Username":"U13","Password":"U13","_Opcode":3}
+{"Username":"U44","Password":"U44","_Opcode":3}
+{"Username":"U55","Password":"U55","_Opcode":3}
+{"Username":"U11","Password":"U11","_Opcode":1}
+{"Username":"U11","StoreName":"S2","_Opcode":10}
+{"Username":"U11","_Opcode":2}

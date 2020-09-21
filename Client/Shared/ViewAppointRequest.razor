@@ -1,0 +1,68 @@
+﻿<h3>Appointment Requests</h3>
+
+@if (Pendings == null || Pendings.Count == 0)
+{
+    <p>There are no pending approve request</p>
+}
+else
+{
+    <MyMessage Msg="@Msg" IsError="@IsError"/>
+    <p>Please Approve\Deny the pending request to being an Owner</p>
+    foreach (string toAppoint in Pendings)
+    {
+    <div class="row">
+        <div class="col-6">
+            <div class="col-md-2">
+                <RadzenLabel Text="@toAppoint"  />
+            </div>
+            <RadzenButton Click="@((args) => Response(toAppoint, true))" Icon="thumb_up_alt" Text="Approve" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 20px; margin-right:20px; width: 170px;" />
+            <RadzenButton Click="@((args) => Response(toAppoint, false))" Icon="thumb_down_alt" Text="Deny" ButtonStyle="ButtonStyle.Secondary" Style="margin-bottom: 20px; width: 170px;" />
+        </div>
+    </div>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public string Username { get; set; }
+    [Parameter]
+    public int StoreId { get; set; }
+
+    public List<string> Pendings { get; set; }
+    public string Msg { get; set; }
+    public bool IsError { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Msg = "";
+        await UpdatePendingsList();
+    }
+
+
+    async Task UpdatePendingsList()
+    {
+        GetApprovalListRequest req = new GetApprovalListRequest(StoreId, Username);
+        GetApprovalListResponse res = await service.GetResponse<GetApprovalListRequest, GetApprovalListResponse>(req);
+        Pendings = res.UsersToApprove;
+    }
+
+    async Task Response(string appointed, bool approval)
+    {
+        ApproveAppointmentRequest request = new ApproveAppointmentRequest(Username, appointed, StoreId, approval);
+        SuccessFailResponse response = await service.GetResponse<ApproveAppointmentRequest, SuccessFailResponse>(request);
+        if (response.Success)
+        {
+            Msg = "Successfully approved " + appointed + " to be an owner";
+            IsError = false;
+        }
+        else
+        {
+            Msg = response.Error;
+            IsError = true;
+        }
+
+        await UpdatePendingsList();
+        StateHasChanged();
+    }
+}

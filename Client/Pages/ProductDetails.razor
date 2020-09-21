@@ -1,0 +1,89 @@
+﻿@page "/Stores/{storeid:int}/{productid:int}"
+<h3>Product Details</h3>
+@if (Product == null)
+{
+    <p>No such product</p>
+}
+else
+{
+    <MyMessage Msg="@Msg" IsError="@IsEroor" />
+    <table class="table">
+        <tr>
+            <th>Product Name</th>
+            <td>@Product.Name</td>
+        </tr>
+        <tr>
+            <th>Category</th>
+            <td>@Product.Category</td>
+        </tr>
+        <tr>
+            <th>Details</th>
+            <td>@Product.Details</td>
+        </tr>
+        <tr>
+            <th>Price</th>
+            <td>@Product.Price&#8362</td>
+        </tr>
+        <tr>
+            <th>Amount In Stock</th>
+            <td>@AmountInStock</td>
+        </tr>
+    </table>
+    
+    <div class="row">
+        <OrderProduct ProductID="@ProductId" StoreID="@StoreId" ProductInCart="false" MaxBound="@AmountInStock" SubmitEvent="@Submit" />
+    </div>
+}
+
+
+@code {
+    [Parameter]
+    public int StoreId { get; set; }
+    [Parameter]
+    public int ProductId { get; set; }
+
+    public ProductData Product { get; set; }
+    public int AmountInStock { get; set; }
+
+    public string Msg { get; set; }
+    public bool IsEroor { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        await UpdateProduct();
+    }
+
+    private async Task UpdateProduct()
+    {
+        GetStoreByIdRequest request = new GetStoreByIdRequest(StoreId);
+        GetStoreByIdResponse response = await service.GetResponse<GetStoreByIdRequest, GetStoreByIdResponse>(request);
+        Product = null;
+        if (response.Store != null)
+        {
+            foreach (var product in response.Store.Products.invProducts)
+            {
+                if (product.Item1.ProductId == ProductId)
+                {
+                    Product = product.Item1;
+                    AmountInStock = product.Item2;
+                    return;
+                }
+            }
+        }
+    }
+
+    protected async Task Submit(SuccessFailResponse response)
+    {
+        IsEroor = !response.Success;
+        if (response.Success)
+        {
+            Msg = "Successfully added your item to cart";
+            await UpdateProduct();
+            StateHasChanged();
+        }
+        else
+        {
+            Msg = response.Error;
+        }
+    }
+}

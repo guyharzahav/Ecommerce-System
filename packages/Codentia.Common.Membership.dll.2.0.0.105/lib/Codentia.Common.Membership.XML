@@ -1,0 +1,2513 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Codentia.Common.Membership</name>
+    </assembly>
+    <members>
+        <member name="T:Codentia.Common.Membership.Abstraction">
+            <summary>
+            Class responsible for providing DataLayer abstraction. Used as part of strategy to decrease coupling between 
+            BL and DL - because of the need to run N versions of DLL (potentially different) against the same Database.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Abstraction.Version">
+            <summary>
+            Gets the version.
+            </summary>
+            <value>The version.</value>
+        </member>
+        <member name="T:Codentia.Common.Membership.Address">
+            <summary>
+            This class represents an Address within the system
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Address"/> class.
+            </summary>
+            <param name="addressId">The address id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.#ctor(System.Data.DataRow)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Address"/> class.
+            </summary>
+            <param name="dr">The dr.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.#ctor(System.Guid)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Address"/> class.
+            </summary>
+            <param name="cookie">The cookie.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.#ctor(System.Web.HttpContext,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Address"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="addressCookieName">Name of the address cookie.</param>
+            <param name="emailCookieName">Name of the email cookie.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.CreateAddress(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,Codentia.Common.Membership.Country,System.String)">
+            <summary>
+            Creates the address.
+            </summary>
+            <param name="title">The title.</param>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="houseName">Name of the house.</param>
+            <param name="street">The street.</param>
+            <param name="town">The town.</param>
+            <param name="city">The city.</param>
+            <param name="county">The county.</param>
+            <param name="postCode">The post code.</param>
+            <param name="country">The country.</param>
+            <param name="emailAddress">The email address.</param>
+            <returns>
+            Address object
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.CreateAddress(System.Guid,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,Codentia.Common.Membership.Country,System.String)">
+            <summary>
+            Creates the address.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="title">The title.</param>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="houseName">Name of the house.</param>
+            <param name="street">The street.</param>
+            <param name="town">The town.</param>
+            <param name="city">The city.</param>
+            <param name="county">The county.</param>
+            <param name="postCode">The post code.</param>
+            <param name="country">The country.</param>
+            <param name="emailAddress">The email address.</param>
+            <returns>
+            Address object
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.CreateAddress(System.Guid,System.Int32,System.Int32)">
+            <summary>
+            Create a Country Only address
+            </summary>
+            <param name="txnId">transaction Id</param>        
+            <param name="countryId">Database Id of Country</param>
+            <param name="emailAddressId">All addresses are associated to an emailAddressId</param>
+            <returns>The Address</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.GetCountryList">
+            <summary>
+            Return a list of countries in a format suitable for front-end binding and/or use
+            </summary>
+            <returns>LookupPair array</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.ConcatenateAddress(System.String,System.Boolean)">
+            <summary>
+            ConcatenateAddress - provide address in delimited format
+            </summary>
+            <param name="delimiter">The delimiter.</param>
+            <param name="isPostCodeRequired">if set to <c>true</c> [is post code required].</param>
+            <returns>
+            string of concatenated address
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.UpdateFromAnotherAddress(Codentia.Common.Membership.Address)">
+            <summary>
+            Updates from another address.
+            </summary>
+            <param name="add">The add.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.Save">
+            <summary>
+            Saves this instance.
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Address.PopulateById(System.Guid,System.Int32)">
+            <summary>
+            PopulateById
+            Populate the address object using the addressId 
+            </summary>
+            <param name="txnId">transaction Id</param>
+            <param name="addressId">Database Id of Address</param>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.AddressId">
+            <summary>
+            Gets the address id.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Contact">
+            <summary>
+            Gets the contact.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Country">
+            <summary>
+            Gets or sets the country.
+            </summary>
+            <value>
+            The country.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Codentia#Common#IAddress#Country">
+            <summary>
+            Gets the country.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.IsCountryOnlyAddress">
+            <summary>
+            Gets a value indicating whether this instance is country only address.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is country only address; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+            <value>
+            The title.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.FirstName">
+            <summary>
+            Gets or sets the first name.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.LastName">
+            <summary>
+            Gets or sets the last name.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.HouseName">
+            <summary>
+            Gets or sets the HouseName
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Street">
+            <summary>
+            Gets or sets the Street
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Town">
+            <summary>
+            Gets or sets Town
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.City">
+            <summary>
+            Gets or sets the City
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.County">
+            <summary>
+            Gets or sets the County
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Postcode">
+            <summary>
+            Gets or sets the Postcode
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Address.Cookie">
+            <summary>
+            Gets the cookie.
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.Membership.AddressData">
+            <summary>
+            This class exposes methods to create, read, update and delete data related to Addresses.    
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.AddressExists(System.Int32)">
+            <summary>
+            Check if a specified addressId exists or not - if local user provided check it exists for user as well
+            </summary>
+            <param name="addressId">addressId to check</param>   
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.AddressExists(System.Guid,System.Int32)">
+            <summary>
+            Check if a specified addressId exists or not - if local user provided check it exists for user as well
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="addressId">addressId to check</param>   
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.AddressExists(System.Guid,System.Guid)">
+            <summary>
+            Check if a specified addressId exists or not and that a specified emailAddressId is the Id for that address
+            </summary>
+            <param name="addressCookie">The address cookie.</param>
+            <param name="emailAddressCookie">The email address cookie.</param>
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.GetAddressById(System.Int32)">
+            <summary>
+            Gets the address by id.
+            </summary>
+            <param name="addressId">The address id.</param>
+            <returns>DataTable - Address</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.GetAddressById(System.Guid,System.Int32)">
+            <summary>
+            Gets the address by id.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="addressId">The address id.</param>
+            <returns>DataTable - Address</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.GetAddressByCookie(System.Guid)">
+            <summary>
+            Retrieve a specific address by Cookie
+            </summary>
+            <param name="addressCookie">Address Cookie</param>
+            <returns>
+            DataTable - The Address
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.CreateCountryOnlyAddress(System.Int32,System.Int32)">
+            <summary>
+            Create a Country Only Address (other fields are empty strings)
+            </summary>
+            <param name="countryId">The country id.</param>
+            <param name="emailAddressId">All addresses are associated to an emailAddressId</param>
+            <returns>
+            The addressId
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.CreateCountryOnlyAddress(System.Guid,System.Int32,System.Int32)">
+            <summary>
+            Create a Country Only Address (other fields are empty strings)
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="countryId">The country id.</param>
+            <param name="emailAddressId">All addresses are associated to an emailAddressId</param>
+            <returns>
+            The addressId
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.CreateAddress(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Creates the address.
+            </summary>
+            <param name="title">The title.</param>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="houseName">Name of the house.</param>
+            <param name="street">The street.</param>
+            <param name="town">The town.</param>
+            <param name="city">The city.</param>
+            <param name="county">The county.</param>
+            <param name="postcode">The postcode.</param>
+            <param name="countryId">The country id.</param>
+            <param name="emailAddressId">The email address id.</param>
+            <returns>
+            The addressId
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.CreateAddress(System.Guid,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Creates the address.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="title">The title.</param>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="houseName">Name of the house.</param>
+            <param name="street">The street.</param>
+            <param name="town">The town.</param>
+            <param name="city">The city.</param>
+            <param name="county">The county.</param>
+            <param name="postcode">The postcode.</param>
+            <param name="countryId">The country id.</param>
+            <param name="emailAddressId">The email address id.</param>
+            <returns>
+            The addressId
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.UpdateCountryOnlyAddress(System.Int32,System.Int32)">
+            <summary>
+            Update an address entry with blank data and just a countryId
+            </summary>
+            <param name="addressId">Address Id</param>
+            <param name="countryId">id of country to which address belongs</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.AddressData.UpdateAddress(System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Updates the address.
+            </summary>
+            <param name="addressId">The address id.</param>
+            <param name="title">The title.</param>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="houseName">Name of the house.</param>
+            <param name="street">The street.</param>
+            <param name="town">The town.</param>
+            <param name="city">The city.</param>
+            <param name="county">The county.</param>
+            <param name="postcode">The postcode.</param>
+            <param name="countryId">The country id.</param>
+        </member>
+        <member name="T:Codentia.Common.Membership.Contact">
+            <summary>
+            Contact class
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Contact"/> class.
+            </summary>
+            <param name="emailAddressText">The email address text.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.#ctor(System.Guid,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Contact"/> class.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="emailAddressText">The email address text.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.#ctor(System.Guid)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Contact"/> class.
+            </summary>
+            <param name="cookie">The cookie.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.#ctor(System.Web.HttpContext,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Contact"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="contactCookieName">Name of the contact cookie.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Contact"/> class.
+            </summary>
+            <param name="emailAddressId">The email address id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.#ctor(System.Guid,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Contact"/> class.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="emailAddressId">The email address id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.#ctor(System.Guid,System.Data.DataRow)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Contact"/> class.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="emailAddressData">The email address data.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.CreateContact(System.String)">
+            <summary>
+            Constructor (By Cookie) - get data
+            </summary>
+            <param name="emailAddress">The email address.</param>
+            <returns>Contact object</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.CreateContact(System.Guid,System.String)">
+            <summary>
+            Constructor (By Cookie) - get data
+            </summary>
+            <param name="txnId">transaction Id</param>
+            <param name="emailAddress">The email address.</param>
+            <returns>Contact object</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.ConfirmEmailAddress(System.String,System.Guid)">
+            <summary>
+            Confirms the email address.
+            </summary>
+            <param name="emailAddress">The email address.</param>
+            <param name="confirmGuid">The confirm GUID.</param>
+            <returns>Is Confirmed</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Contact.GetSystemUserForEmailAddress">
+            <summary>
+            Gets the system user for email address.
+            </summary>
+            <returns>SystemUser object</returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Contact.IsConfirmed">
+            <summary>
+            Gets a value indicating whether this instance is confirmed.
+            </summary>
+            <value>
+            	<c>true</c> if this instance is confirmed; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Contact.EmailAddressOrder">
+            <summary>
+            Gets the email address order.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Contact.ConfirmGuid">
+            <summary>
+            Gets the confirm GUID.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Contact.Addresses">
+            <summary>
+            Gets the addresses.
+            </summary>
+            <value>The addresses.</value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Contact.EmailAddress">
+            <summary>
+            Gets the email address.
+            </summary>
+            <value>The email address.</value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Contact.EmailAddressId">
+            <summary>
+            Gets the email address id.
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.Membership.ContactData">
+            <summary>
+            This class exposes methods to create, read, update data related to Email Addresses 
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.EmailAddressExists(System.String)">
+            <summary>
+            Check if a specified email address exists or not
+            </summary>
+            <param name="emailAddress">emailAddress to check</param>       
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.EmailAddressExists(System.Guid,System.String)">
+            <summary>
+            Check if a specified email address exists or not
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="emailAddress">emailAddress to check</param>       
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.EmailAddressExists(System.Int32)">
+            <summary>
+            Check if a specified email address Id exists or not
+            </summary>
+            <param name="emailAddressId">emailAddressId to check</param>       
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.EmailAddressExists(System.Guid,System.Int32)">
+            <summary>
+            Check if a specified email address Id exists or not
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="emailAddressId">emailAddressId to check</param>       
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.CreateEmailAddress(System.String)">
+            <summary>
+            CreateEmailAddress and return the new id
+            </summary>
+            <param name="emailAddress">The email address.</param>
+            <returns>
+            The emailAddressId
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.CreateEmailAddress(System.Guid,System.String)">
+            <summary>
+            CreateEmailAddress and return the new id (in a transaction)
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="emailAddress">The email address.</param>
+            <returns>
+            The emailAddressId
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetSystemUserIdForEmailAddress(System.Int32)">
+            <summary>
+            Retrieve the SystemUser (if any) associated to an email address
+            </summary>
+            <param name="emailAddressId">email addressId</param>
+            <returns>The systemUserId</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetSystemUserIdForEmailAddress(System.Guid,System.Int32)">
+            <summary>
+            Retrieve the SystemUser (if any) associated to an email address
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="emailAddressId">email addressId</param>
+            <returns>The systemUserId</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetEmailAddressData(System.String)">
+            <summary>
+            Gets the email address data.
+            </summary>
+            <param name="emailAddress">The email address.</param>
+            <returns>DataTable - EmailAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetEmailAddressData(System.Guid,System.String)">
+            <summary>
+            Retrieve email address data (by address) in a transaction
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="emailAddress">The email address</param>
+            <returns>DataTable - Email Address</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetEmailAddressData(System.Int32)">
+            <summary>
+            Retrieve email address data (by Id)
+            </summary>
+            <param name="emailAddressId">The emailAddressId</param>
+            <returns>DataTable - EmailAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetEmailAddressData(System.Guid,System.Int32)">
+            <summary>
+            Gets the email address data.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="emailAddressId">The email address id.</param>
+            <returns>DataTable - EmailAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.Confirm(System.String,System.Guid)">
+            <summary>
+            Confirm Email Address (from a confirmation email link)
+            </summary>
+            <param name="emailAddress">email address to confirm</param>
+            <param name="confirmGuid">Guid from parameter string</param>
+            <returns>bool - true = successful, false - unsuccessful</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetEmailAddressData(System.Guid)">
+            <summary>
+            Retrieve email address data (by Cookie)
+            </summary>
+            <param name="emailAddressCookie">The emailAddressCookie</param>
+            <returns>DataTable - EmailAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.CreatePhoneNumber(System.Guid,System.String)">
+            <summary>
+            Create a new PhoneNumber record (or return extant, matching id if already created)
+            Always updated as part of another process so needs a transaction Id
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="phoneNumber">PhoneNumber to create entry for</param>
+            <returns>The phoneNumberId</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetPhoneNumber(System.Int32)">
+            <summary>
+            Retrieve an existing PhoneNumber entry.
+            </summary>
+            <param name="phoneNumberId">The phonenumberId</param>
+            <returns>string - phone number</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.ContactData.GetAddressesForEmailAddress(System.Int32)">
+            <summary>
+            Retrieve all addresses associated to an email Address
+            </summary>
+            <param name="emailAddressId">email Address Id</param>
+            <returns>DataTable - EmailAddress</returns>
+        </member>
+        <member name="T:Codentia.Common.Membership.Country">
+            <summary>
+            Country class
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Country.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Country"/> class.
+            </summary>
+            <param name="displayText">The display text.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Country.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.Country"/> class.
+            </summary>
+            <param name="countryId">The country id.</param>
+        </member>
+        <member name="P:Codentia.Common.Membership.Country.DisplayText">
+            <summary>
+            Gets the display text.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Country.CountryId">
+            <summary>
+            Gets the country id.
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.Membership.CountryData">
+            <summary>
+            This class exposes methods to create, retrieve update and delete Country Data
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.GetCountryById(System.Int32)">
+            <summary>
+            Gets the country by id.
+            </summary>
+            <param name="countryId">The country id.</param>
+            <returns>DataTable - Country</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.CountryExists(System.Int32)">
+            <summary>
+            Verify if a given country exists, based on its id
+            </summary>
+            <param name="countryId">Id to be checked for existence</param>
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.CountryExists(System.Guid,System.Int32)">
+            <summary>
+            Verify if a given country exists, based on its id
+            </summary>
+            <param name="txnId">transaction Id</param>
+            <param name="countryId">Id to be checked for existence</param>
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.CountryExists(System.String)">
+            <summary>
+            Verify if a given country exists, based on its displayText
+            </summary>
+            <param name="displayText">DisplayText to be checked for existence</param>
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.CountryExists(System.Guid,System.String)">
+            <summary>
+            Verify if a given country exists, based on its displayText
+            </summary>
+            <param name="txnId">transaction Id</param>
+            <param name="displayText">DisplayText to be checked for existence</param>
+            <returns>Does Exist</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.GetCountries">
+            <summary>
+            Retrieve all available countries
+            </summary>
+            <returns>DataTable - Countries</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.GetCountryIdByDisplayText(System.String)">
+            <summary>
+            Retrieve the Id of a country by its displayText.
+            </summary>
+            <param name="displayText">DisplayText to search for</param>
+            <returns>The countryId</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.CountryData.GetCountryDisplayText(System.Int32)">
+            <summary>
+            Retrieve a specific country's displaytext by its Id
+            </summary>
+            <param name="countryId">The CountryId</param>
+            <returns>string - Country Display Text</returns>
+        </member>
+        <member name="T:Codentia.Common.Membership.Providers.CESqlMembershipProvider">
+            <summary>
+            CESqlMembershipProvider - override standard SqlMembershipProvider to have dynamic connection strings
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Initializes the provider.
+            </summary>
+            <param name="name">The friendly name of the provider.</param>
+            <param name="config">A collection of the name/value pairs representing the provider-specific attributes specified in the configuration for this provider.</param>
+            <exception cref="T:System.ArgumentNullException">The name of the provider is null.</exception>
+            <exception cref="T:System.ArgumentException">The name of the provider has a length of zero.</exception>
+            <exception cref="T:System.InvalidOperationException">An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)"/> on a provider after the provider has already been initialized.</exception>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.CreateUser(System.String,System.String,System.String,System.String,System.String,System.Boolean,System.Object,System.Web.Security.MembershipCreateStatus@)">
+            <summary>
+            Adds a new membership user to the data source.
+            </summary>
+            <param name="username">The user name for the new user.</param>
+            <param name="password">The password for the new user.</param>
+            <param name="email">The e-mail address for the new user.</param>
+            <param name="passwordQuestion">The password question for the new user.</param>
+            <param name="passwordAnswer">The password answer for the new user</param>
+            <param name="isApproved">Whether or not the new user is approved to be validated.</param>
+            <param name="providerUserKey">The unique identifier from the membership data source for the user.</param>
+            <param name="status">A <see cref="T:System.Web.Security.MembershipCreateStatus"/> enumeration value indicating whether the user was created successfully.</param>
+            <returns>
+            A <see cref="T:System.Web.Security.MembershipUser"/> object populated with the information for the newly created user.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.ChangePasswordQuestionAndAnswer(System.String,System.String,System.String,System.String)">
+            <summary>
+            Processes a request to update the password question and answer for a membership user.
+            </summary>
+            <param name="username">The user to change the password question and answer for.</param>
+            <param name="password">The password for the specified user.</param>
+            <param name="newPasswordQuestion">The new password question for the specified user.</param>
+            <param name="newPasswordAnswer">The new password answer for the specified user.</param>
+            <returns>
+            true if the password question and answer are updated successfully; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GetPassword(System.String,System.String)">
+            <summary>
+            Gets the password.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="passwordAnswer">The password answer.</param>
+            <returns>The Password</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.ChangePassword(System.String,System.String,System.String)">
+            <summary>
+            Processes a request to update the password for a membership user.
+            </summary>
+            <param name="username">The user to update the password for.</param>
+            <param name="oldPassword">The current password for the specified user.</param>
+            <param name="newPassword">The new password for the specified user.</param>
+            <returns>
+            true if the password was updated successfully; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.ResetPassword(System.String,System.String)">
+            <summary>
+            Resets the password.
+            </summary>
+            <param name="username">The username.</param>
+            <param name="passwordAnswer">The password answer.</param>
+            <returns>The Password</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.UpdateUser(System.Web.Security.MembershipUser)">
+            <summary>
+            Updates information about a user in the data source.
+            </summary>
+            <param name="user">A <see cref="T:System.Web.Security.MembershipUser"/> object that represents the user to update and the updated information for the user.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.ValidateUser(System.String,System.String)">
+            <summary>
+            Verifies that the specified user name and password exist in the data source.
+            </summary>
+            <param name="username">The name of the user to validate.</param>
+            <param name="password">The password for the specified user.</param>
+            <returns>
+            true if the specified username and password are valid; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.UnlockUser(System.String)">
+            <summary>
+            Unlocks the user.
+            </summary>
+            <param name="username">The username.</param>
+            <returns>true if user was unlocked</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GetUser(System.Object,System.Boolean)">
+            <summary>
+            Gets user information from the data source based on the unique identifier for the membership user. Provides an option to update the last-activity date/time stamp for the user.
+            </summary>
+            <param name="providerUserKey">The unique identifier for the membership user to get information for.</param>
+            <param name="userIsOnline">true to update the last-activity date/time stamp for the user; false to return user information without updating the last-activity date/time stamp for the user.</param>
+            <returns>
+            A <see cref="T:System.Web.Security.MembershipUser"/> object populated with the specified user's information from the data source.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GetUser(System.String,System.Boolean)">
+            <summary>
+            Gets information from the data source for a user. Provides an option to update the last-activity date/time stamp for the user.
+            </summary>
+            <param name="username">The name of the user to get information for.</param>
+            <param name="userIsOnline">true to update the last-activity date/time stamp for the user; false to return user information without updating the last-activity date/time stamp for the user.</param>
+            <returns>
+            A <see cref="T:System.Web.Security.MembershipUser"/> object populated with the specified user's information from the data source.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GetUserNameByEmail(System.String)">
+            <summary>
+            Gets the user name associated with the specified e-mail address.
+            </summary>
+            <param name="email">The e-mail address to search for.</param>
+            <returns>
+            The user name associated with the specified e-mail address. If no match is found, return null.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.DeleteUser(System.String,System.Boolean)">
+            <summary>
+            Removes a user from the membership data source.
+            </summary>
+            <param name="username">The name of the user to delete.</param>
+            <param name="deleteAllRelatedData">true to delete data related to the user from the database; false to leave data related to the user in the database.</param>
+            <returns>
+            true if the user was successfully deleted; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GetAllUsers(System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Gets a collection of all the users in the data source in pages of data.
+            </summary>
+            <param name="pageIndex">The index of the page of results to return. <paramref name="pageIndex"/> is zero-based.</param>
+            <param name="pageSize">The size of the page of results to return.</param>
+            <param name="totalRecords">The total number of matched users.</param>
+            <returns>
+            A <see cref="T:System.Web.Security.MembershipUserCollection"/> collection that contains a page of <paramref name="pageSize"/><see cref="T:System.Web.Security.MembershipUser"/> objects beginning at the page specified by <paramref name="pageIndex"/>.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GetNumberOfUsersOnline">
+            <summary>
+            Gets the number of users currently accessing the application.
+            </summary>
+            <returns>
+            The number of users currently accessing the application.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.FindUsersByName(System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Gets a collection of membership users where the user name contains the specified user name to match.
+            </summary>
+            <param name="usernameToMatch">The user name to search for.</param>
+            <param name="pageIndex">The index of the page of results to return. <paramref name="pageIndex"/> is zero-based.</param>
+            <param name="pageSize">The size of the page of results to return.</param>
+            <param name="totalRecords">The total number of matched users.</param>
+            <returns>
+            A <see cref="T:System.Web.Security.MembershipUserCollection"/> collection that contains a page of <paramref name="pageSize"/><see cref="T:System.Web.Security.MembershipUser"/> objects beginning at the page specified by <paramref name="pageIndex"/>.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.FindUsersByEmail(System.String,System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Gets a collection of membership users where the e-mail address contains the specified e-mail address to match.
+            </summary>
+            <param name="emailToMatch">The e-mail address to search for.</param>
+            <param name="pageIndex">The index of the page of results to return. <paramref name="pageIndex"/> is zero-based.</param>
+            <param name="pageSize">The size of the page of results to return.</param>
+            <param name="totalRecords">The total number of matched users.</param>
+            <returns>
+            A <see cref="T:System.Web.Security.MembershipUserCollection"/> collection that contains a page of <paramref name="pageSize"/><see cref="T:System.Web.Security.MembershipUser"/> objects beginning at the page specified by <paramref name="pageIndex"/>.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GeneratePassword">
+            <summary>
+            Generates the password.
+            </summary>
+            <returns>The password</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.GenerateSalt">
+            <summary>
+            Generates the salt.
+            </summary>
+            <returns>The salt</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.EncodePassword(System.String,System.Int32,System.String)">
+            <summary>
+            Encodes the password.
+            </summary>
+            <param name="pass">The pass.</param>
+            <param name="passwordFormat">The password format.</param>
+            <param name="salt">The salt.</param>
+            <returns>The encoded password</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.UnEncodePassword(System.String,System.Int32)">
+            <summary>
+            Uns the encode password.
+            </summary>
+            <param name="pass">The pass.</param>
+            <param name="passwordFormat">The password format.</param>
+            <returns>The unencoded password</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlMembershipProvider.HexToByte(System.String)">
+            <summary>
+            Converts a hexadecimal string to a byte array. Used to convert encryption
+            </summary>
+            <param name="hexString">The hex string.</param>
+            <returns>byte array</returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.ProviderDbDataSource">
+            <summary>
+            Gets or sets the provider data source.
+            </summary>
+            <value>The provider data source.</value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.ConnectionStringName">
+            <summary>
+            Gets ConnectionStringName
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.EnablePasswordRetrieval">
+            <summary>
+            Indicates whether the membership provider is configured to allow users to retrieve their passwords.
+            </summary>
+            <value></value>
+            <returns>true if the membership provider is configured to support password retrieval; otherwise, false. The default is false.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.EnablePasswordReset">
+            <summary>
+            Indicates whether the membership provider is configured to allow users to reset their passwords.
+            </summary>
+            <value></value>
+            <returns>true if the membership provider supports password reset; otherwise, false. The default is true.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.RequiresQuestionAndAnswer">
+            <summary>
+            Gets a value indicating whether the membership provider is configured to require the user to answer a password question for password reset and retrieval.
+            </summary>
+            <value></value>
+            <returns>true if a password answer is required for password reset and retrieval; otherwise, false. The default is true.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.RequiresUniqueEmail">
+            <summary>
+            Gets a value indicating whether the membership provider is configured to require a unique e-mail address for each user name.
+            </summary>
+            <value></value>
+            <returns>true if the membership provider requires a unique e-mail address; otherwise, false. The default is true.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.PasswordFormat">
+            <summary>
+            Gets a value indicating the format for storing passwords in the membership data store.
+            </summary>
+            <value></value>
+            <returns>
+            One of the <see cref="T:System.Web.Security.MembershipPasswordFormat"/> values indicating the format for storing passwords in the data store.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.MaxInvalidPasswordAttempts">
+            <summary>
+            Gets the number of invalid password or password-answer attempts allowed before the membership user is locked out.
+            </summary>
+            <value></value>
+            <returns>
+            The number of invalid password or password-answer attempts allowed before the membership user is locked out.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.PasswordAttemptWindow">
+            <summary>
+            Gets the number of minutes in which a maximum number of invalid password or password-answer attempts are allowed before the membership user is locked out.
+            </summary>
+            <value></value>
+            <returns>
+            The number of minutes in which a maximum number of invalid password or password-answer attempts are allowed before the membership user is locked out.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.MinRequiredPasswordLength">
+            <summary>
+            Gets the minimum length required for a password.
+            </summary>
+            <value></value>
+            <returns>
+            The minimum length required for a password.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.MinRequiredNonAlphanumericCharacters">
+            <summary>
+            Gets the minimum number of special characters that must be present in a valid password.
+            </summary>
+            <value></value>
+            <returns>
+            The minimum number of special characters that must be present in a valid password.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.PasswordStrengthRegularExpression">
+            <summary>
+            Gets the regular expression used to evaluate a password.
+            </summary>
+            <value></value>
+            <returns>
+            A regular expression used to evaluate a password.
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlMembershipProvider.ApplicationName">
+            <summary>
+            The name of the application using the custom membership provider.
+            </summary>
+            <returns>string</returns>
+        </member>
+        <member name="T:Codentia.Common.Membership.Providers.CESqlRoleProvider">
+            <summary>
+            CESqlRoleProvider - override standard SqlRoleProvider to have dynamic connection strings
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.IsUserInRole(System.String,System.String)">
+            <summary>
+            Gets a value indicating whether the specified user is in the specified role for the configured applicationName.
+            </summary>
+            <param name="username">The user name to search for.</param>
+            <param name="roleName">The role to search in.</param>
+            <returns>
+            true if the specified user is in the specified role for the configured applicationName; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.GetRolesForUser(System.String)">
+            <summary>
+            Gets a list of the roles that a specified user is in for the configured applicationName.
+            </summary>
+            <param name="username">The user to return a list of roles for.</param>
+            <returns>
+            A string array containing the names of all the roles that the specified user is in for the configured applicationName.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.CreateRole(System.String)">
+            <summary>
+            Adds a new role to the data source for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to create.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.DeleteRole(System.String,System.Boolean)">
+            <summary>
+            Removes a role from the data source for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to delete.</param>
+            <param name="throwOnPopulatedRole">If true, throw an exception if <paramref name="roleName"/> has one or more members and do not delete <paramref name="roleName"/>.</param>
+            <returns>
+            true if the role was successfully deleted; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.RoleExists(System.String)">
+            <summary>
+            Gets a value indicating whether the specified role name already exists in the role data source for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to search for in the data source.</param>
+            <returns>
+            true if the role name already exists in the data source for the configured applicationName; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.AddUsersToRoles(System.String[],System.String[])">
+            <summary>
+            Adds the specified user names to the specified roles for the configured applicationName.
+            </summary>
+            <param name="usernames">A string array of user names to be added to the specified roles.</param>
+            <param name="roleNames">A string array of the role names to add the specified user names to.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.RemoveUsersFromRoles(System.String[],System.String[])">
+            <summary>
+            Removes the specified user names from the specified roles for the configured applicationName.
+            </summary>
+            <param name="usernames">A string array of user names to be removed from the specified roles.</param>
+            <param name="roleNames">A string array of role names to remove the specified user names from.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.GetUsersInRole(System.String)">
+            <summary>
+            Gets a list of users in the specified role for the configured applicationName.
+            </summary>
+            <param name="roleName">The name of the role to get the list of users for.</param>
+            <returns>
+            A string array containing the names of all the users who are members of the specified role for the configured applicationName.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.GetAllRoles">
+            <summary>
+            Gets a list of all the roles for the configured applicationName.
+            </summary>
+            <returns>
+            A string array containing the names of all the roles stored in the data source for the configured applicationName.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.FindUsersInRole(System.String,System.String)">
+            <summary>
+            Gets an array of user names in a role where the user name contains the specified user name to match.
+            </summary>
+            <param name="roleName">The role to search in.</param>
+            <param name="usernameToMatch">The user name to search for.</param>
+            <returns>
+            A string array containing the names of all the users where the user name matches <paramref name="usernameToMatch"/> and the user is a member of the specified role.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.CESqlRoleProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Initializes the provider.
+            </summary>
+            <param name="name">The friendly name of the provider.</param>
+            <param name="config">A collection of the name/value pairs representing the provider-specific attributes specified in the configuration for this provider.</param>
+            <exception cref="T:System.ArgumentNullException">The name of the provider is null.</exception>
+            <exception cref="T:System.ArgumentException">The name of the provider has a length of zero.</exception>
+            <exception cref="T:System.InvalidOperationException">An attempt is made to call <see cref="M:System.Configuration.Provider.ProviderBase.Initialize(System.String,System.Collections.Specialized.NameValueCollection)"/> on a provider after the provider has already been initialized.</exception>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlRoleProvider.ProviderDbDataSource">
+            <summary>
+            Gets or sets the provider data source.
+            </summary>
+            <value>The provider data source.</value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlRoleProvider.ConnectionStringName">
+            <summary>
+            Gets ConnectionStringName
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.CESqlRoleProvider.ApplicationName">
+            <summary>
+            Gets/Sets ApplicationName
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.Membership.Providers.ProviderStrings">
+            <summary>
+            ProviderStrings class
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.ProviderStrings.GetString(System.String)">
+            <summary>
+            Gets the string.
+            </summary>
+            <param name="strString">The STR string.</param>
+            <returns>The String</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.ProviderStrings.GetString(System.String,System.String)">
+            <summary>
+            Gets the string.
+            </summary>
+            <param name="strString">The STR string.</param>
+            <param name="param1">The param1.</param>
+            <returns>The String</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.ProviderStrings.GetString(System.String,System.String,System.String)">
+            <summary>
+            Gets the string.
+            </summary>
+            <param name="strString">The STR string.</param>
+            <param name="param1">The param1.</param>
+            <param name="param2">The param2.</param>
+            <returns>The String</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.ProviderStrings.GetString(System.String,System.String,System.String,System.String)">
+            <summary>
+            Gets the string.
+            </summary>
+            <param name="strString">The STR string.</param>
+            <param name="param1">The param1.</param>
+            <param name="param2">The param2.</param>
+            <param name="param3">The param3.</param>
+            <returns>The String</returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Auth_rule_names_cant_contain_char">
+            <summary>
+            Gets the auth_rule_names_cant_contain_char.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Connection_name_not_specified">
+            <summary>
+            Gets the connection_name_not_specified.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Connection_string_not_found">
+            <summary>
+            Gets the connection_string_not_found.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_AccountLockOut">
+            <summary>
+            Gets the membership_ account lock out.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_Custom_Password_Validation_Failure">
+            <summary>
+            Gets the membership_ custom_ password_ validation_ failure.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_InvalidAnswer">
+            <summary>
+            Gets the membership_ invalid answer.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_InvalidEmail">
+            <summary>
+            Gets the membership_ invalid email.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_InvalidPassword">
+            <summary>
+            Gets the membership_ invalid password.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_InvalidProviderUserKey">
+            <summary>
+            Gets the membership_ invalid provider user key.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_InvalidQuestion">
+            <summary>
+            Gets the membership_ invalid question.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_more_than_one_user_with_email">
+            <summary>
+            Gets the membership_more_than_one_user_with_email.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_password_too_long">
+            <summary>
+            Gets the membership_password_too_long.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_PasswordRetrieval_not_supported">
+            <summary>
+            Gets the membership_ password retrieval_not_supported.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_UserNotFound">
+            <summary>
+            Gets the membership_ user not found.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_WrongAnswer">
+            <summary>
+            Gets the membership_ wrong answer.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Membership_WrongPassword">
+            <summary>
+            Gets the membership_ wrong password.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PageIndex_bad">
+            <summary>
+            Gets the page index_bad.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PageIndex_PageSize_bad">
+            <summary>
+            Gets the page index_ page size_bad.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PageSize_bad">
+            <summary>
+            Gets the page size_bad.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Parameter_array_empty">
+            <summary>
+            Gets the parameter_array_empty.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Parameter_can_not_be_empty">
+            <summary>
+            Gets the parameter_can_not_be_empty.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Parameter_can_not_contain_comma">
+            <summary>
+            Gets the parameter_can_not_contain_comma.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Parameter_duplicate_array_element">
+            <summary>
+            Gets the parameter_duplicate_array_element.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Parameter_too_long">
+            <summary>
+            Gets the parameter_too_long.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Password_does_not_match_regular_expression">
+            <summary>
+            Gets the password_does_not_match_regular_expression.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Password_need_more_non_alpha_numeric_chars">
+            <summary>
+            Gets the password_need_more_non_alpha_numeric_chars.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Password_too_short">
+            <summary>
+            Gets the password_too_short.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProvider_ApplicationNameExceedMaxLength">
+            <summary>
+            Gets the length of the personalization provider_ application name exceed max.
+            </summary>
+            <value>
+            The length of the personalization provider_ application name exceed max.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProvider_BadConnection">
+            <summary>
+            Gets the personalization provider_ bad connection.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProvider_CantAccess">
+            <summary>
+            Gets the personalization provider_ cant access.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProvider_NoConnection">
+            <summary>
+            Gets the personalization provider_ no connection.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProvider_UnknownProp">
+            <summary>
+            Gets the personalization provider_ unknown prop.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.ProfileSqlProvider_description">
+            <summary>
+            Gets the profile SQL provider_description.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Property_Had_Malformed_Url">
+            <summary>
+            Gets the property_ had_ malformed_ URL.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_application_name_too_long">
+            <summary>
+            Gets the provider_application_name_too_long.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_bad_password_format">
+            <summary>
+            Gets the provider_bad_password_format.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_can_not_retrieve_hashed_password">
+            <summary>
+            Gets the provider_can_not_retrieve_hashed_password.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_Error">
+            <summary>
+            Gets the provider_ error.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_Not_Found">
+            <summary>
+            Gets the provider_ not_ found.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_role_already_exists">
+            <summary>
+            Gets the provider_role_already_exists.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_role_not_found">
+            <summary>
+            Gets the provider_role_not_found.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_Schema_Version_Not_Match">
+            <summary>
+            Gets the provider_ schema_ version_ not_ match.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_this_user_already_in_role">
+            <summary>
+            Gets the provider_this_user_already_in_role.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_this_user_not_found">
+            <summary>
+            Gets the provider_this_user_not_found.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_unknown_failure">
+            <summary>
+            Gets the provider_unknown_failure.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_unrecognized_attribute">
+            <summary>
+            Gets the provider_unrecognized_attribute.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_user_not_found">
+            <summary>
+            Gets the provider_user_not_found.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Role_is_not_empty">
+            <summary>
+            Gets the role_is_not_empty.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.RoleSqlProvider_description">
+            <summary>
+            Gets the role SQL provider_description.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SiteMapProvider_cannot_remove_root_node">
+            <summary>
+            Gets the site map provider_cannot_remove_root_node.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SqlError_Connection_String">
+            <summary>
+            Gets the SQL error_ connection_ string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SqlExpress_file_not_found_in_connection_string">
+            <summary>
+            Gets the SQL express_file_not_found_in_connection_string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SqlPersonalizationProvider_Description">
+            <summary>
+            Gets the SQL personalization provider_ description.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Value_must_be_boolean">
+            <summary>
+            Gets the value_must_be_boolean.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Value_must_be_non_negative_integer">
+            <summary>
+            Gets the value_must_be_non_negative_integer.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Value_must_be_positive_integer">
+            <summary>
+            Gets the value_must_be_positive_integer.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Value_too_big">
+            <summary>
+            Gets the value_too_big.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_cannot_add_node">
+            <summary>
+            Gets the XML site map provider_cannot_add_node.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Cannot_Be_Inited_Twice">
+            <summary>
+            Gets the XML site map provider_ cannot_ be_ inited_ twice.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_cannot_find_provider">
+            <summary>
+            Gets the XML site map provider_cannot_find_provider.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_cannot_remove_node">
+            <summary>
+            Gets the XML site map provider_cannot_remove_node.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Description">
+            <summary>
+            Gets the XML site map provider_ description.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Error_loading_Config_file">
+            <summary>
+            Gets the XML site map provider_ error_loading_ config_file.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_FileName_already_in_use">
+            <summary>
+            Gets the XML site map provider_ file name_already_in_use.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_FileName_does_not_exist">
+            <summary>
+            Gets the XML site map provider_ file name_does_not_exist.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Invalid_Extension">
+            <summary>
+            Gets the XML site map provider_ invalid_ extension.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_invalid_GetRootNodeCore">
+            <summary>
+            Gets the XML site map provider_invalid_ get root node core.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_invalid_resource_key">
+            <summary>
+            Gets the XML site map provider_invalid_resource_key.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_invalid_sitemapnode_returned">
+            <summary>
+            Gets the XML site map provider_invalid_sitemapnode_returned.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_missing_siteMapFile">
+            <summary>
+            Gets the XML site map provider_missing_site map file.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Multiple_Nodes_With_Identical_Key">
+            <summary>
+            Gets the XML site map provider_ multiple_ nodes_ with_ identical_ key.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Multiple_Nodes_With_Identical_Url">
+            <summary>
+            Gets the XML site map provider_ multiple_ nodes_ with_ identical_ URL.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_multiple_resource_definition">
+            <summary>
+            Gets the XML site map provider_multiple_resource_definition.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Not_Initialized">
+            <summary>
+            Gets the XML site map provider_ not_ initialized.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Only_One_SiteMapNode_Required_At_Top">
+            <summary>
+            Gets the XML site map provider_ only_ one_ site map node_ required_ at_ top.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Only_SiteMapNode_Allowed">
+            <summary>
+            Gets the XML site map provider_ only_ site map node_ allowed.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_resourceKey_cannot_be_empty">
+            <summary>
+            Gets the XML site map provider_resource key_cannot_be_empty.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.XmlSiteMapProvider_Top_Element_Must_Be_SiteMap">
+            <summary>
+            Gets the XML site map provider_ top_ element_ must_ be_ site map.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_TrimmedEmptyString">
+            <summary>
+            Gets the personalization provider helper_ trimmed empty string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.StringUtil_Trimmed_String_Exceed_Maximum_Length">
+            <summary>
+            Gets the length of the string util_ trimmed_ string_ exceed_ maximum_.
+            </summary>
+            <value>
+            The length of the string util_ trimmed_ string_ exceed_ maximum_.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.MembershipSqlProvider_description">
+            <summary>
+            Gets the membership SQL provider_description.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.MinRequiredNonalphanumericCharacters_can_not_be_more_than_MinRequiredPasswordLength">
+            <summary>
+            Gets the length of the min required nonalphanumeric characters_can_not_be_more_than_ min required password.
+            </summary>
+            <value>
+            The length of the min required nonalphanumeric characters_can_not_be_more_than_ min required password.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_Empty_Collection">
+            <summary>
+            Gets the personalization provider helper_ empty_ collection.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_Null_Or_Empty_String_Entries">
+            <summary>
+            Gets the personalization provider helper_ null_ or_ empty_ string_ entries.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_CannotHaveCommaInString">
+            <summary>
+            Gets the personalization provider helper_ cannot have comma in string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_Trimmed_Entry_Value_Exceed_Maximum_Length">
+            <summary>
+            Gets the length of the personalization provider helper_ trimmed_ entry_ value_ exceed_ maximum_.
+            </summary>
+            <value>
+            The length of the personalization provider helper_ trimmed_ entry_ value_ exceed_ maximum_.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_More_Than_One_Path">
+            <summary>
+            Gets the personalization provider helper_ more_ than_ one_ path.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_Negative_Integer">
+            <summary>
+            Gets the personalization provider helper_ negative_ integer.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationAdmin_UnexpectedPersonalizationProviderReturnValue">
+            <summary>
+            Gets the personalization admin_ unexpected personalization provider return value.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_Null_Entries">
+            <summary>
+            Gets the personalization provider helper_ null_ entries.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_Invalid_Less_Than_Parameter">
+            <summary>
+            Gets the personalization provider helper_ invalid_ less_ than_ parameter.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.PersonalizationProviderHelper_No_Usernames_Set_In_Shared_Scope">
+            <summary>
+            Gets the personalization provider helper_ no_ usernames_ set_ in_ shared_ scope.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_this_user_already_not_in_role">
+            <summary>
+            Gets the provider_this_user_already_not_in_role.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Not_configured_to_support_password_resets">
+            <summary>
+            Gets the not_configured_to_support_password_resets.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Parameter_collection_empty">
+            <summary>
+            Gets the parameter_collection_empty.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Provider_can_not_decode_hashed_password">
+            <summary>
+            Gets the provider_can_not_decode_hashed_password.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.DbFileName_can_not_contain_invalid_chars">
+            <summary>
+            Gets the db file name_can_not_contain_invalid_chars.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Error_Deleting_Session_Job">
+            <summary>
+            Gets the SQ l_ services_ error_ deleting_ session_ job.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Error_Executing_Command">
+            <summary>
+            Gets the SQ l_ services_ error_ executing_ command.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Invalid_Feature">
+            <summary>
+            Gets the SQ l_ services_ invalid_ feature.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Database_Empty_Or_Space_Only_Arg">
+            <summary>
+            Gets the SQ l_ services_ database_ empty_ or_ space_ only_ arg.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Database_contains_invalid_chars">
+            <summary>
+            Gets the SQ l_ services_ database_contains_invalid_chars.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Error_Cant_Uninstall_Nonexisting_Database">
+            <summary>
+            Gets the SQ l_ services_ error_ cant_ uninstall_ nonexisting_ database.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Error_Cant_Uninstall_Nonempty_Table">
+            <summary>
+            Gets the SQ l_ services_ error_ cant_ uninstall_ nonempty_ table.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Error_missing_custom_database">
+            <summary>
+            Gets the SQ l_ services_ error_missing_custom_database.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Error_Cant_use_custom_database">
+            <summary>
+            Gets the SQ l_ services_ error_ cant_use_custom_database.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.SQL_Services_Cant_connect_sql_database">
+            <summary>
+            Gets the SQ l_ services_ cant_connect_sql_database.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Error_parsing_sql_partition_resolver_string">
+            <summary>
+            Gets the error_parsing_sql_partition_resolver_string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Error_parsing_session_sqlConnectionString">
+            <summary>
+            Gets the error_parsing_session_sql connection string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.No_database_allowed_in_sqlConnectionString">
+            <summary>
+            Gets the no_database_allowed_in_sql connection string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.No_database_allowed_in_sql_partition_resolver_string">
+            <summary>
+            Gets the no_database_allowed_in_sql_partition_resolver_string.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Cant_connect_sql_session_database">
+            <summary>
+            Gets the cant_connect_sql_session_database.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Cant_connect_sql_session_database_partition_resolver">
+            <summary>
+            Gets the cant_connect_sql_session_database_partition_resolver.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Login_failed_sql_session_database">
+            <summary>
+            Gets the login_failed_sql_session_database.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Need_v2_SQL_Server">
+            <summary>
+            Gets the need_v2_ SQ l_ server.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Need_v2_SQL_Server_partition_resolver">
+            <summary>
+            Gets the need_v2_ SQ l_ server_partition_resolver.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Invalid_session_state">
+            <summary>
+            Gets the invalid_session_state.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Missing_required_attribute">
+            <summary>
+            Gets the missing_required_attribute.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Invalid_boolean_attribute">
+            <summary>
+            Gets the invalid_boolean_attribute.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Empty_attribute">
+            <summary>
+            Gets the empty_attribute.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Config_base_unrecognized_attribute">
+            <summary>
+            Gets the config_base_unrecognized_attribute.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Config_base_no_child_nodes">
+            <summary>
+            Gets the config_base_no_child_nodes.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Unexpected_provider_attribute">
+            <summary>
+            Gets the unexpected_provider_attribute.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Only_one_connection_string_allowed">
+            <summary>
+            Gets the only_one_connection_string_allowed.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Cannot_use_integrated_security">
+            <summary>
+            Gets the cannot_use_integrated_security.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Must_specify_connection_string_or_name">
+            <summary>
+            Gets the must_specify_connection_string_or_name.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Invalid_max_event_details_length">
+            <summary>
+            Gets the invalid_max_event_details_length.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Sql_webevent_provider_events_dropped">
+            <summary>
+            Gets the sql_webevent_provider_events_dropped.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.Providers.ProviderStrings.Invalid_provider_positive_attributes">
+            <summary>
+            Gets the invalid_provider_positive_attributes.
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.Membership.Providers.SecUtility">
+            <summary>
+            SecUtility class
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetDefaultAppName">
+            <summary>
+            Gets the default name of the app.
+            </summary>
+            <returns>The default name of the app</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.ValidatePasswordParameter(System.String@,System.Int32)">
+            <summary>
+            Validates the password parameter.
+            </summary>
+            <param name="param">The param.</param>
+            <param name="maxSize">Size of the max.</param>
+            <returns>true if valid</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.ValidateParameter(System.String@,System.Boolean,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Validates the parameter.
+            </summary>
+            <param name="param">The param.</param>
+            <param name="checkForNull">if set to <c>true</c> [check for null].</param>
+            <param name="checkIfEmpty">if set to <c>true</c> [check if empty].</param>
+            <param name="checkForCommas">if set to <c>true</c> [check for commas].</param>
+            <param name="maxSize">Size of the max.</param>
+            <returns>true if valid</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckPasswordParameter(System.String@,System.Int32,System.String)">
+            <summary>
+            Checks the password parameter.
+            </summary>
+            <param name="param">The param.</param>
+            <param name="maxSize">Size of the max.</param>
+            <param name="paramName">Name of the param.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckParameter(System.String@,System.Boolean,System.Boolean,System.Boolean,System.Int32,System.String)">
+            <summary>
+            Checks the parameter.
+            </summary>
+            <param name="param">The param.</param>
+            <param name="checkForNull">if set to <c>true</c> [check for null].</param>
+            <param name="checkIfEmpty">if set to <c>true</c> [check if empty].</param>
+            <param name="checkForCommas">if set to <c>true</c> [check for commas].</param>
+            <param name="maxSize">Size of the max.</param>
+            <param name="paramName">Name of the param.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckArrayParameter(System.String[]@,System.Boolean,System.Boolean,System.Boolean,System.Int32,System.String)">
+            <summary>
+            Checks the array parameter.
+            </summary>
+            <param name="param">The param.</param>
+            <param name="checkForNull">if set to <c>true</c> [check for null].</param>
+            <param name="checkIfEmpty">if set to <c>true</c> [check if empty].</param>
+            <param name="checkForCommas">if set to <c>true</c> [check for commas].</param>
+            <param name="maxSize">Size of the max.</param>
+            <param name="paramName">Name of the param.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetBooleanValue(System.Collections.Specialized.NameValueCollection,System.String,System.Boolean)">
+            <summary>
+            Gets the boolean value.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="valueName">Name of the value.</param>
+            <param name="defaultValue">if set to <c>true</c> [default value].</param>
+            <returns>the value</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetIntValue(System.Collections.Specialized.NameValueCollection,System.String,System.Int32,System.Boolean,System.Int32)">
+            <summary>
+            Gets the int value.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="valueName">Name of the value.</param>
+            <param name="defaultValue">The default value.</param>
+            <param name="zeroAllowed">if set to <c>true</c> [zero allowed].</param>
+            <param name="maxValueAllowed">The max value allowed.</param>
+            <returns>int value</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.IsAbsolutePhysicalPath(System.String)">
+            <summary>
+            Determines whether [is absolute physical path] [the specified path].
+            </summary>
+            <param name="path">The path.</param>
+            <returns>
+              <c>true</c> if [is absolute physical path] [the specified path]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.IsUncSharePath(System.String)">
+            <summary>
+            Determines whether [is unc share path] [the specified path].
+            </summary>
+            <param name="path">The path.</param>
+            <returns>
+              <c>true</c> if [is unc share path] [the specified path]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckSchemaVersion(System.Configuration.Provider.ProviderBase,System.String,System.String[],System.String,System.Int32@)">
+            <summary>
+            Checks the schema version.
+            </summary>
+            <param name="provider">The provider.</param>
+            <param name="dataSource">The data source.</param>
+            <param name="features">The features.</param>
+            <param name="version">The version.</param>
+            <param name="schemaVersionCheck">The schema version check.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetAndRemoveBooleanAttribute(System.Xml.XmlNode,System.String,System.Boolean@)">
+            <summary>
+            Gets the and remove boolean attribute.
+            </summary>
+            <param name="node">The node.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="val">if set to <c>true</c> [val].</param>
+            <returns>XmlNode - Attribute</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetAndRemoveNonEmptyStringAttribute(System.Xml.XmlNode,System.String,System.String@)">
+            <summary>
+            Gets the and remove non empty string attribute.
+            </summary>
+            <param name="node">The node.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="val">The val.</param>
+            <returns>XmlNode- Attribute</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckForUnrecognizedAttributes(System.Xml.XmlNode)">
+            <summary>
+            Checks for unrecognized attributes.
+            </summary>
+            <param name="node">The node.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckForNonCommentChildNodes(System.Xml.XmlNode)">
+            <summary>
+            Checks for non comment child nodes.
+            </summary>
+            <param name="node">The node.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetAndRemoveStringAttribute(System.Xml.XmlNode,System.String,System.String@)">
+            <summary>
+            Gets the and remove string attribute.
+            </summary>
+            <param name="node">The node.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="val">The val.</param>
+            <returns>The node</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckForbiddenAttribute(System.Xml.XmlNode,System.String)">
+            <summary>
+            Checks the forbidden attribute.
+            </summary>
+            <param name="node">The node.</param>
+            <param name="attrib">The attrib.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.IsRelativeUrl(System.String)">
+            <summary>
+            Determines whether [is relative URL] [the specified virtual path].
+            </summary>
+            <param name="virtualPath">The virtual path.</param>
+            <returns>
+              <c>true</c> if [is relative URL] [the specified virtual path]; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.IsRooted(System.String)">
+            <summary>
+            Determines whether the specified basepath is rooted.
+            </summary>
+            <param name="basepath">The basepath.</param>
+            <returns>
+              <c>true</c> if the specified basepath is rooted; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetAndRemoveStringAttribute(System.Collections.Specialized.NameValueCollection,System.String,System.String,System.String@)">
+            <summary>
+            Gets the and remove string attribute.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="providerName">Name of the provider.</param>
+            <param name="val">The val.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.CheckUnrecognizedAttributes(System.Collections.Specialized.NameValueCollection,System.String)">
+            <summary>
+            Checks the unrecognized attributes.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="providerName">Name of the provider.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetStringFromBool(System.Boolean)">
+            <summary>
+            Gets the string from bool.
+            </summary>
+            <param name="flag">if set to <c>true</c> [flag].</param>
+            <returns>string value</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetAndRemovePositiveOrInfiniteAttribute(System.Collections.Specialized.NameValueCollection,System.String,System.String,System.Int32@)">
+            <summary>
+            Gets the and remove positive or infinite attribute.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="providerName">Name of the provider.</param>
+            <param name="val">The val.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetPositiveOrInfiniteAttribute(System.Collections.Specialized.NameValueCollection,System.String,System.String,System.Int32@)">
+            <summary>
+            Gets the positive or infinite attribute.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="providerName">Name of the provider.</param>
+            <param name="val">The val.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetAndRemovePositiveAttribute(System.Collections.Specialized.NameValueCollection,System.String,System.String,System.Int32@)">
+            <summary>
+            Gets the and remove positive attribute.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="providerName">Name of the provider.</param>
+            <param name="val">The val.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.Providers.SecUtility.GetPositiveAttribute(System.Collections.Specialized.NameValueCollection,System.String,System.String,System.Int32@)">
+            <summary>
+            Gets the positive attribute.
+            </summary>
+            <param name="config">The config.</param>
+            <param name="attrib">The attrib.</param>
+            <param name="providerName">Name of the provider.</param>
+            <param name="val">The val.</param>
+        </member>
+        <member name="T:Codentia.Common.Membership.SystemUser">
+            <summary>
+            This class represents a user within the system, e.g. a registered user whose details have been stored and are
+            available to ease the ordering process via login.
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.#ctor(System.Web.HttpContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.SystemUser"/> class.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.SystemUser"/> class.
+            </summary>
+            <param name="systemUserId">The system user id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.#ctor(System.Data.DataRow,System.Data.DataTable)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.SystemUser"/> class.
+            </summary>
+            <param name="systemUser">The system user.</param>
+            <param name="emailAddressData">The email address data.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.#ctor(System.Guid,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.SystemUser"/> class.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="systemUserId">The system user id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.Create(System.Guid,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Create a brand new user (new registration) - returning the Id
+            </summary>
+            <param name="txnId">Id of ADO.NET transaction</param>
+            <param name="emailAddress">Email Address for the user (Primary)</param>
+            <param name="password">Password supplied by the user</param>
+            <param name="firstName">User's first name</param>
+            <param name="surname">User's surname</param>
+            <param name="hasNewsLetter">Has Newsletter</param>
+            <param name="phoneNumber">User's contact phone number (optional)</param>
+            <param name="defaultRole">User's default role (optional)</param>
+            <returns>int - id</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.CreateSystemUser(System.Guid,System.String,System.String,System.String,System.String,System.Boolean,System.String,System.String)">
+            <summary>
+            Create a brand new user (new registration)- returning the SystemUser object
+            </summary>
+            <param name="txnId">Id of ADO.NET transaction</param>
+            <param name="emailAddress">Email Address for the user (Primary)</param>
+            <param name="password">Password supplied by the user</param>
+            <param name="firstName">User's first name</param>
+            <param name="surname">User's surname</param>
+            <param name="hasNewsLetter">Has Newsletter</param>
+            <param name="phoneNumber">User's contact phone number (optional)</param>
+            <param name="defaultRole">User's default role (optional)</param>
+            <returns>SystemUser object</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.AuthenticateUser(System.Web.HttpResponse,System.String,System.String)">
+            <summary>
+            Perform authentication for a given username and password combination.
+            If successful, set the appropriate cookies.
+            </summary>
+            <param name="response">Server Response object for the connection making the authentication request</param>
+            <param name="emailAddress">EmailAddress of the user</param>
+            <param name="password">Password supplied by the user</param>
+            <returns>bool - authentication success</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.ResetPassword(System.String)">
+            <summary>
+            Reset the password for a given systemuser to a randomly generated value.
+            </summary>
+            <param name="emailAddress">Email Address identifying the user</param>
+            <returns>new password</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.SetRole(System.String)">
+            <summary>
+            Sets the role.
+            </summary>
+            <param name="roleName">Name of the role.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.SetForcePassword">
+            <summary>
+            Sets the force password.
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.ChangePassword(System.String,System.String)">
+            <summary>
+            Change the user's password
+            </summary>
+            <param name="oldPassword">Old password (for confirmation)</param>
+            <param name="newPassword">New password to use</param>
+            <returns>true if password was changed</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.AddEmailAddress(System.String,System.Int32)">
+            <summary>
+            Adds the email address.
+            </summary>
+            <param name="emailAddress">The email address.</param>
+            <param name="emailAddressOrder">The email address order.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUser.RemoveEmailAddress(System.String)">
+            <summary>
+            Removes the email address.
+            </summary>
+            <param name="emailAddress">The email address.</param>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.SystemUserId">
+            <summary>
+            Gets the system user id.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.EmailAddresses">
+            <summary>
+            Gets the email addresses.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.FirstName">
+            <summary>
+            Gets or sets the first name.
+            </summary>
+            <value>
+            The first name.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.Surname">
+            <summary>
+            Gets or sets the surname.
+            </summary>
+            <value>
+            The surname.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.UserId">
+            <summary>
+            Gets the user id.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.HasNewsLetter">
+            <summary>
+            Gets or sets a value indicating whether this instance has news letter.
+            </summary>
+            <value>
+            	<c>true</c> if this instance has news letter; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.MembershipUser">
+            <summary>
+            Gets the membership user.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.SystemUser.PhoneNumber">
+            <summary>
+            Gets or sets the phone number.
+            </summary>
+            <value>
+            The phone number.
+            </value>
+        </member>
+        <member name="T:Codentia.Common.Membership.SystemUserData">
+            <summary>
+            This class exposes methods to create, read, update and delete data related to Users   
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.GetEmailAddressesForSystemUser(System.Int32)">
+            <summary>
+            Get All email addresses for a system user
+            </summary>
+            <param name="systemUserId">Id of the user to retrieve an address for</param>
+            <returns>DataTable - EmailAddresses</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.GetEmailAddressesForSystemUser(System.Guid,System.Int32)">
+            <summary>
+            Get All email addresses for a system user
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="systemUserId">Id of the user to retrieve an address for</param>
+            <returns>DataTable - EmailAddresses</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.GetSystemUser(System.Int32)">
+            <summary>
+            Gets the system user.
+            </summary>
+            <param name="systemUserId">The system user id.</param>
+            <returns>DataTable - SystemUser</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.GetSystemUser(System.Guid,System.Int32)">
+            <summary>
+            Retrieve a specific system user.
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="systemUserId">The SystemUserId</param>
+            <returns>DataTable - Systemuser</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.GetSystemUser(System.String)">
+            <summary>
+            Retrieve a specific system user
+            </summary>
+            <param name="emailAddress">Primary email address to retrieve user for</param>
+            <returns>DataTable - SystemUser</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.GetSystemUser(System.Guid,System.String)">
+            <summary>
+            Retrieve a specific system user
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="emailAddress">Primary email address to retrieve user for</param>
+            <returns>DataTable - SystemUser</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.SystemUserExists(System.Int32)">
+            <summary>
+            Check if a specified system user exists or not
+            </summary>
+            <param name="systemUserId">Id of the user to check</param>
+            <returns>true if SystemUser exists</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.SystemUserExists(System.Guid,System.Int32)">
+            <summary>
+            Check if a specified system user exists or not
+            </summary>
+            <param name="txnId">Transaction Id of ADO.Net Transaction</param>
+            <param name="systemUserId">Id of the user to check</param>
+            <returns>true if SystemUser exists</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.SetRole(System.Int32,System.String)">
+            <summary>
+            Sets the role.
+            </summary>
+            <param name="systemUserId">The system user id.</param>
+            <param name="roleName">Name of the role.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.SetRole(System.Guid,System.Int32,System.String)">
+            <summary>
+            Sets the role.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="systemUserId">The system user id.</param>
+            <param name="roleName">Name of the role.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.CreateSystemUser(System.Guid,System.Guid,System.String,System.String,System.Boolean,System.Int32,System.String)">
+            <summary>
+            Creates the system user.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="membershipUserId">The membership user id.</param>
+            <param name="firstName">The first name.</param>
+            <param name="surname">The surname.</param>
+            <param name="hasNewsLetter">if set to <c>true</c> [has news letter].</param>
+            <param name="primaryEmailAddressId">The primary email address id.</param>
+            <param name="phoneNumber">The phone number.</param>
+            <returns>The systemUserId</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.GetSystemUser(System.Guid)">
+            <summary>
+            Gets the system user.
+            </summary>
+            <param name="userId">The user id.</param>
+            <returns>DataTable - SystemUser</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.UpdateSystemUser(System.Int32,System.String,System.String,System.Boolean,System.String)">
+            <summary>
+            Updates the system user.
+            </summary>
+            <param name="systemUserId">The system user id.</param>
+            <param name="firstName">The first name.</param>
+            <param name="surname">The surname.</param>
+            <param name="hasNewsLetter">if set to <c>true</c> [has news letter].</param>
+            <param name="phoneNumber">The phone number.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.SetForcePassword(System.Int32)">
+            <summary>
+            Sets the force password.
+            </summary>
+            <param name="systemUserId">The system user id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.AssociateSystemUserToEmailAddress(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Associates the system user to email address.
+            </summary>
+            <param name="emailAddressId">The email address id.</param>
+            <param name="systemUserId">The system user id.</param>
+            <param name="emailAddressOrder">The email address order.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.SystemUserData.DissociateSystemUserFromEmailAddress(System.Int32,System.Int32)">
+            <summary>
+            Dissociates the system user from email address.
+            </summary>
+            <param name="emailAddressId">The email address identifier.</param>
+            <param name="systemUserId">The system user identifier.</param>
+            <exception cref="T:System.ArgumentException">Email address does not exist</exception>
+        </member>
+        <member name="T:Codentia.Common.Membership.WebAddress">
+            <summary>
+            This class represents a webaddress within the system, 
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddress.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.WebAddress"/> class.
+            </summary>
+            <param name="webAddressId">The web address id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddress.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.WebAddress"/> class.
+            </summary>
+            <param name="url">The URL.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddress.#ctor(System.Guid,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.WebAddress"/> class.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="url">The URL.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddress.#ctor(System.Guid,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.Membership.WebAddress"/> class.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="webAddressId">The web address id.</param>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddress.CreateWebAddress(System.Guid,System.String)">
+            <summary>
+            Creates the web address.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="url">The URL.</param>
+            <returns>WebAddress object</returns>
+        </member>
+        <member name="P:Codentia.Common.Membership.WebAddress.URL">
+            <summary>
+            Gets the URL.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.Membership.WebAddress.IsDead">
+            <summary>
+            Gets a value indicating whether this instance is dead.
+            </summary>
+            <value>
+              <c>true</c> if this instance is dead; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.Membership.WebAddress.WebAddressId">
+            <summary>
+            Gets the web address id.
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.Membership.WebAddressData">
+            <summary>
+            This class exposes methods to create, retrieve update Web Address and WebAddressType Data
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.GetWebAddressTypes">
+            <summary>
+            Retrieve all available Web Address Types
+            </summary>
+            <returns>DataTable - WebAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.WebAddressExists(System.String)">
+            <summary>
+            Check if a specified URL exists or not
+            </summary>
+            <param name="url">URL to check</param>       
+            <returns>true if the WebAddress exists</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.WebAddressExists(System.Guid,System.String)">
+            <summary>
+            Check if a specified URL exists or not
+            </summary>
+            <param name="txnId">transaction (if applicable)</param>
+            <param name="url">URL to check</param>       
+            <returns>true if the WebAddress exists</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.WebAddressExists(System.Int32)">
+            <summary>
+            Check if a specified web address Id exists or not
+            </summary>
+            <param name="webAddressId">webAddressId to check</param>       
+            <returns>true if the WebAddress exists</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.WebAddressExists(System.Guid,System.Int32)">
+            <summary>
+            Check if a specified web address Id exists or not
+            </summary>
+            <param name="txnId">transaction (if applicable)</param>
+            <param name="webAddressId">webAddressId to check</param>       
+            <returns>true if the WebAddress exists</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.GetWebAddressData(System.Int32)">
+            <summary>
+            Retrieve web address data (by Id)
+            </summary>
+            <param name="webAddressId">webAddressId to check</param>       
+            <returns>DataTable - WebAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.GetWebAddressData(System.Guid,System.Int32)">
+            <summary>
+            Retrieve web address data (by Id)
+            </summary>
+            <param name="txnId">transaction (if applicable)</param>
+            <param name="webAddressId">webAddressId to check</param>       
+            <returns>DataTable - WebAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.GetWebAddressData(System.String)">
+            <summary>
+            Retrieve web address data (by URL)
+            </summary>
+            <param name="url">url to check</param>       
+            <returns>DataTable - WebAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.GetWebAddressData(System.Guid,System.String)">
+            <summary>
+            Retrieve web address data (by URL)
+            </summary>
+            <param name="txnId">transaction (if applicable)</param>
+            <param name="url">url to check</param>       
+            <returns>DataTable - WebAddress</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.UpdateWebAddressAsDead(System.Int32)">
+            <summary>
+            Update URL as a dead link
+            </summary>
+            <param name="webAddressId">webAddressId to check</param>       
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.CreateWebAddress(System.String)">
+            <summary>
+            Creates the web address.
+            </summary>
+            <param name="url">The URL.</param>
+            <returns>The webAddressId</returns>
+        </member>
+        <member name="M:Codentia.Common.Membership.WebAddressData.CreateWebAddress(System.Guid,System.String)">
+            <summary>
+            Creates the web address.
+            </summary>
+            <param name="txnId">The TXN id.</param>
+            <param name="url">The URL.</param>
+            <returns>The webAddressId</returns>
+        </member>
+        <member name="T:Codentia.Common.Membership.WebAddressType">
+            <summary>
+            Enum defining the Web Address Types for HandMadeCrafts  
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.Membership.WebAddressType.None">
+            <summary>
+            No web address type specified
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.Membership.WebAddressType.Blog">
+            <summary>
+            An web address for a blog
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.Membership.WebAddressType.Shop">
+            <summary>
+            A web address used for a shop
+            </summary>
+        </member>
+    </members>
+</doc>

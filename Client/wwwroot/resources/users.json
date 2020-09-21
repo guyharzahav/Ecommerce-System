@@ -1,0 +1,32 @@
+[
+    {
+        "Username": "moshe22",
+        "Password": "moshe22",
+        "Roles": [ "regular" ]
+    },
+    {
+        "Username": "uriftw58",
+        "Password": "35a1d94387613bb5771c0097cb22a7a58b3feed8",
+        "Roles": [ "regular" ]
+    },
+    {
+        "Username": "chendoy",
+        "Password": "chendoy",
+        "Roles": [ "owner", "regular", "admin" ]
+    },
+    {
+        "Username": "brucewayne11",
+        "Password": "112bcac68a45fe77388a85c44d14f0ea6c043d1f",
+        "Roles": [ "owner", "regular" ]
+    },
+    {
+        "Username": "usersuperduper",
+        "Password": "60a2fab8e7bfcdfb36ecf7fa968a82725b5392a6",
+        "Roles": [ "owner", "regular" ]
+    },
+    {
+        "Username": "outofnames",
+        "Password": "7c4a8d09ca3762af61e59520943dc26494f8941b",
+        "Roles": [ "owner", "regular" ]
+    }
+]

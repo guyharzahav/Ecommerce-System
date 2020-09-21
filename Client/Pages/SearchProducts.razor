@@ -1,0 +1,144 @@
+﻿@page "/SearchProducts"
+<h3>Search Products</h3>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row" style="margin-bottom:20px">
+            <div class="col-md-4 align-items-center d-flex">
+                <RadzenLabel Text="Product Keyword:" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextBox style="width: 100%;" @bind-Value="ProductKeyword" Change="@Change" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 align-items-center d-flex">
+                <RadzenLabel Text="Product Price:" />
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <RadzenLabel Text="Start" style="width: 100%;" />
+                        <RadzenNumeric TValue="int" Min="1" Max="@ProductPriceRangeEnd" @bind-Value="ProductPriceRangeStart" Change="@Change" style="width: 100%;" />
+                    </div>
+                    <div class="col-sm-4">
+                        <RadzenLabel Text="End" style="width: 100%;" />
+                        <RadzenNumeric TValue="int" Min="@ProductPriceRangeStart" @bind-Value="ProductPriceRangeEnd" Change="@Change" style="width: 100%;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row" style="margin-bottom:20px">
+            <div class="col-md-4 align-items-center d-flex">
+                <RadzenLabel Text="Category:" />
+            </div>
+            <div class="col-md-8">
+                <RadzenTextBox style="width: 100%;" @bind-Value="Category" Change="@Change"/>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:20px">
+            <div class="col-md-4 align-items-center d-flex">
+                <RadzenLabel Text="StoreId:" />
+            </div>
+            <div class="col-md-8">
+                <RadzenNumeric TValue="int?" Min="1" @bind-Value="StoreId" Placeholder="Enter or clear value" Change="@Change" style="width: 100%;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="height:20px"/>
+
+@if (SearchResults == null || SearchResults.Count == 0)
+{
+    <RadzenLabel Text="No products match your search" />
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Store Id</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Details</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var products in SearchResults)
+            {
+                @foreach (var product in products.Value)
+                {   
+                <tr>
+                    <td>@products.Key</td>
+                        <ProductRow StoreId="products.Key" Product="product" />
+                </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+
+    public string ProductKeyword { get; set; }
+    public int ProductPriceRangeStart { get; set; }
+    public int ProductPriceRangeEnd { get; set; }
+    public string Category { get; set; }
+    public int? StoreId { get; set; }
+
+    public Dictionary<int, List<ProductData>> SearchResults { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ProductPriceRangeStart = 0;
+        ProductPriceRangeEnd = 10000;
+        await Change();
+    }
+
+    public async Task Change()
+    {
+        Dictionary<string, object> searchFields = new Dictionary<string, object>();
+        if (!String.IsNullOrWhiteSpace(ProductKeyword))
+        {
+            searchFields[SearcherKeys.ProductKeyWord] = ProductKeyword;
+        }
+
+        searchFields[SearcherKeys.MinPrice] = ProductPriceRangeStart;
+        searchFields[SearcherKeys.MaxPrice] = ProductPriceRangeEnd;
+
+        if (!String.IsNullOrWhiteSpace(Category))
+        {
+            searchFields[SearcherKeys.ProductCategory] = Category;
+        }
+
+        if (StoreId.HasValue)
+        {
+            searchFields[SearcherKeys.StoreId] = StoreId.Value;
+        }
+
+        SearchProductRequest request = new SearchProductRequest(searchFields);
+        SearchProductResponse response = await service.GetResponse<SearchProductRequest, SearchProductResponse>(request);
+        SearchResults = response.SearchResults;
+        StateHasChanged();
+    }
+
+    public static class SearcherKeys
+    {
+        public static string ProductKeyWord = "SearchByProductKeyWord";
+        public static string ProductRank = "searchByProductRank";
+        public static string MinPrice = "minPrice";
+        public static string MaxPrice = "maxPrice";
+        public static string ProductName = "SearchByProductName";
+        public static string ProductCategory = "searchByCategory";
+        public static string StoreRank = "SearchByStoreRank";
+        public static string StoreId = "SearchByStioreId";
+    }
+
+
+}

@@ -1,0 +1,59 @@
+﻿<RadzenPanel AllowCollapse="false" Style="margin-bottom: 10px;">
+    <h3>Choose amount</h3>
+    <div class="col row">
+        @*<RadzenSlider  TValue="int" Min="1" Style="margin-bottom: 20px;" />*@
+        <RadzenNumeric @bind-Value="@NumberChosen" TValue="int" Min="1" Max="@MaxBound" Style="margin-bottom: 20px; width:100%" />
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <RadzenButton Icon="add_shopping_cart" Style="margin-bottom: 20px;" Click="(() => Submit())" />
+        </div>
+        <div class="col-6">
+            <RadzenButton Icon="cancel" Style="margin-bottom: 20px;" Visible="@ProductInCart" Click="@CancelEvent" />
+        </div>
+    </div>
+</RadzenPanel>
+
+
+    @code {
+        [Parameter]
+        public int ProductID { get; set; }
+        [Parameter]
+        public int StoreID { get; set; }
+        [Parameter]
+        public int MaxBound { get; set; }
+        [Parameter]
+        public bool ProductInCart { get; set; }
+        [Parameter]
+        public EventCallback<SuccessFailResponse> SubmitEvent { get; set; }
+        [Parameter]
+        public EventCallback CancelEvent { get; set; }
+
+        public int NumberChosen { get; set; }
+        public bool IsVisible { get; set; }
+
+        protected override void OnInitialized()
+        {
+            IsVisible = true;
+            NumberChosen = 1;
+        }
+
+        public async void Submit()
+        {
+            string username = await ((MyAuthenticationStateProvider)AuthenticationStateProvider).GetLoggedInUsername();
+            SuccessFailResponse response;
+            if (ProductInCart)
+            {
+                ChangeProductAmountInCartRequest request = new ChangeProductAmountInCartRequest(username, StoreID, ProductID, NumberChosen);
+                response = await service.GetResponse<ChangeProductAmountInCartRequest, SuccessFailResponse>(request);
+            }
+            else
+            {
+                AddProductToCartRequest request = new AddProductToCartRequest(username, StoreID, ProductID, NumberChosen);
+                response = await service.GetResponse<AddProductToCartRequest, SuccessFailResponse>(request);
+            }
+
+            await SubmitEvent.InvokeAsync(response);
+        }
+
+    }

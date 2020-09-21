@@ -1,0 +1,76 @@
+﻿@page "/register"
+
+
+<div class="register-frame">
+    <div class="col-12">
+    </div>
+    <div class="col-12 row">
+        <div>
+            <br /><br /><br /><br /><br />
+            <img src="/resources/register.png" height="267" width="232" alt="register">
+        </div>
+
+        <div class="vertical-line"></div>
+
+        <EditForm Model="@user" OnValidSubmit="@RegisterUser">
+            <div>
+                <br /><br /><br /><br /><br />
+            </div>
+            <div>
+                <h3 style="font-weight:bold; color:purple">Please tell us who you are</h3>
+            </div>
+            <div>
+                <br />
+            </div>
+            <div class="col-12 row">
+                <input class="form-control col-12" @bind="user.Username" placeholder="Username" />
+            </div>
+            <br />
+            <div class="col-12 row">
+                <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
+            </div>
+            <br />
+            <div class="col-12 row">
+                <input type="password" class="form-control col-12" placeholder="confirm password" />
+            </div>
+            <br />
+            <div class="col-12 row">
+                <span class="col-12"></span>
+                <input type="submit" class="register-form-btn form-control col-6 btn btn-primary" value="Register" />
+            </div>
+            <br />
+            <div class="col-12 row login-msg" style="text-align:center; font-weight:bold">
+                <span class="col-12">@RegisterMesssage</span>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+
+    public UserData user { get; set; }
+    public string RegisterMesssage { get; set; }
+
+    protected override void OnInitialized()
+    {
+        user = new UserData();
+    }
+
+    private async void RegisterUser()
+    {
+        var registered = await service.Register(user);
+
+        if (registered.Success)
+        {
+            NavigationManager.NavigateTo("/index");
+        }
+        else
+        {
+            RegisterMesssage = registered.Error;
+        }
+
+    }
+
+}

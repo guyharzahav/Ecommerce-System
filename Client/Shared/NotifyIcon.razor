@@ -1,0 +1,46 @@
+﻿@inject Client.Service.ECommerce14AService service
+@implements IDisposable
+
+@if (NotificationCount > 0)
+{
+    <a href="/notifications">You have @NotificationCount notifications</a>
+}
+
+
+@code {
+    private NotifierService notifier;
+    public int NotificationCount { get; set; }
+
+    protected override void OnInitialized()
+    {
+        notifier = service.NotifierService;
+        NotificationCount = service.NotifierService.Notifications.Count;
+        notifier.OnNotifyReceived += OnNotify;
+        notifier.OnNotifyRemoved += OnRemoveNotify;
+    }
+
+
+    public async Task OnNotify(string notification)
+    {
+        await InvokeAsync(() =>
+        {
+            NotificationCount++;
+            StateHasChanged();
+        });
+    }
+
+    public async Task OnRemoveNotify()
+    {
+        await InvokeAsync(() =>
+        {
+            NotificationCount--;
+            StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        notifier.OnNotifyReceived -= OnNotify;
+        notifier.OnNotifyRemoved -= OnRemoveNotify;
+    }
+}

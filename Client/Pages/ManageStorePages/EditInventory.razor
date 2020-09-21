@@ -1,0 +1,355 @@
+﻿<MyMessage Msg="@Msg" IsError="@IsError"/>
+
+<div class="row">
+    <div class="col-md-5">
+
+    </div>
+    <div class="col-10">
+
+
+        <RadzenTemplateForm Data="@product" Submit="@((Product args) => { AddProduct(args); })">
+            <div class="row justify-content-center" style="align-content:center">
+                <RadzenFieldset Text="Add Product">
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-4 align-items-center d-flex">
+                            <RadzenLabel Text="Details" />
+                        </div>
+                        <div class="col-8">
+                            <RadzenTextBox @bind-Value="product.ProductDetails" style="width: 100%;" Name="ProductDetails" />
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-4 align-items-center d-flex">
+                            <RadzenLabel Text="Price" />
+                        </div>
+                        <div class="col-8">
+                            <RadzenNumeric @bind-Value="product.ProductPrice" style="width: 100%;" Name="Name" />
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-4 align-items-center d-flex">
+                            <RadzenLabel Text="Name" />
+                        </div>
+                        <div class="col-8">
+                            <RadzenTextBox @bind-Value="product.ProductName" style="width: 100%;" Name="ProductName" />
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-4 align-items-center d-flex">
+                            <RadzenLabel Text="Category" />
+                        </div>
+                        <div class="col-8">
+                            <RadzenTextBox @bind-Value="product.ProductCategory" style="width: 100%;" Name="ProductCategory" />
+                        </div>
+                    </div>
+
+                    <br />
+
+                    <div class="row">
+                        <div class="col-4 align-items-center d-flex">
+                            <RadzenLabel Text="Amount" />
+                        </div>
+                        <div class="col-8">
+                            <RadzenNumeric @bind-Value="product.Amount" style="width: 100%;" Name="Name" />
+                        </div>
+                    </div>
+
+                    <br />
+
+                    @*<div class="row">
+                            <div class="col-md-4 align-items-center d-flex">
+                                <RadzenLabel Text="Image URL" />
+                            </div>
+                            <div class="col-md-8">
+                                <RadzenTextBox @bind-Value="product.ImgUrl" style="width: 100%;" Name="ImgUrl" />
+                            </div>
+                        </div>*@
+
+                </RadzenFieldset>
+
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-12 d-flex align-items-end justify-content-center" style="margin-top: 16px;">
+                    <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Add Product" />
+                    <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Clear" Click="@Clear" />
+                </div>
+            </div>
+        </RadzenTemplateForm>
+    </div>
+</div>
+
+<br/> <br/>
+<div class="row">
+
+    <RadzenGrid @ref="productsGrid" AllowFiltering="true" AllowPaging="true" PageSize="10" AllowSorting="true"
+                Data="@Inventory" TItem="Product">
+        <Columns>
+            <RadzenGridColumn Width="100px" TItem="Product" Property="product.ProductId" Title="Product ID" />
+            <RadzenGridColumn Width="100px" TItem="Product" Property="product.ProductName" Title="Product Name">
+                <EditTemplate Context="product">
+                    <RadzenTextBox @bind-Value="product.ProductName" Style="width:100%; display: block" Name="ProductName" />
+                </EditTemplate>
+            </RadzenGridColumn>
+            <RadzenGridColumn Width="100px" TItem="Product" Property="product.ProductCategory" Title="Category">
+                <EditTemplate Context="product">
+                    <RadzenTextBox @bind-Value="product.ProductCategory" Style="width:100%; display: block" Name="Category" />
+                </EditTemplate>
+            </RadzenGridColumn>
+            <RadzenGridColumn Width="100px" TItem="Product" Property="product.ProductDetails" Title="Details">
+                <EditTemplate Context="product">
+                    <RadzenTextBox @bind-Value="product.ProductDetails" Style="width:100%; display: block" Name="Details" />
+                </EditTemplate>
+            </RadzenGridColumn>
+            <RadzenGridColumn Width="100px" TItem="Product" Property="product.ProductPrice" Title="Price">
+                <EditTemplate Context="product">
+                    <RadzenNumeric TValue="double" @bind-Value="product.ProductPrice" Style="width:100%; display: block" Name="Price" />
+                </EditTemplate>
+            </RadzenGridColumn>
+            <RadzenGridColumn Width="100px" TItem="Product" Property="product.Amount" Title="Amount">
+                <EditTemplate Context="product">
+                    <RadzenNumeric TValue="int" @bind-Value="product.Amount" Style="width:100%; display: block" Name="Amount" />
+                </EditTemplate>
+            </RadzenGridColumn>
+
+            <RadzenGridColumn TItem="Product" Context="product" Bubble="false" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="100px">
+                <Template Context="product">
+                    <RadzenButton Icon="edit" Size="ButtonSize.Small" Click="@(args => EditRow(product))">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="product">
+                    <RadzenButton Icon="save" Size="ButtonSize.Small" Click="@((args) => SaveRow(product))">
+                    </RadzenButton>
+                    <RadzenButton Icon="cancel" Size="ButtonSize.Small" ButtonStyle="ButtonStyle.Secondary" Click="@((args) => CancelEdit(product))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenGridColumn>
+            <RadzenGridColumn TItem="Product" Context="product" Bubble="false" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="70px">
+                <Template Context="product">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(product))">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="product">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="close" Size="ButtonSize.Small" Click="@(args => DeleteRow(product))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenGridColumn>
+        </Columns>
+
+    </RadzenGrid>
+</div>
+
+@code {
+
+    [Parameter]
+    public string Username { get; set; }
+    [Parameter]
+    public int StoreId { get; set; }
+
+    public string Msg { get; set; }
+    public bool IsError { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdateInventory();
+        ProductsInEdit = new List<Product>();
+    }
+
+    public class Product
+    {
+        public int ProductId { get; set; }
+        public string ProductDetails { get; set; }
+        public double ProductPrice { get; set; }
+        public string ProductName { get; set; }
+        public string ProductCategory { get; set; }
+        public int Amount { get; set; }
+        public string ImgUrl { get; set; }
+
+        public Product Clone()
+        {
+            Product clone = new Product();
+            clone.ProductId = this.ProductId;
+            clone.ProductDetails = this.ProductDetails;
+            clone.ProductPrice = this.ProductPrice;
+            clone.ProductName = this.ProductName;
+            clone.ProductCategory = this.ProductCategory;
+            clone.Amount = this.Amount;
+
+            return clone;
+        }
+    }
+
+    Product product = new Product()
+    {
+
+    };
+
+    private async void AddProduct(Product p)
+    {
+        SuccessFailResponse response = await service.AddProductToStore(StoreId, Username, p.ProductDetails, p.ProductPrice, p.ProductName, p.ProductCategory, p.Amount, p.ImgUrl);
+
+        if (response.Success)
+        {
+            Msg = "Operation completed successfully";
+            IsError = false;
+            Clear();
+            await UpdateInventory();
+        }
+        else
+        {
+            Msg = response.Error;
+            IsError = true;
+        }
+    }
+
+    void Clear()
+    {
+        product = new Product();
+    }
+
+    ///////////////////////////////////////////////////////////// Products GridView
+
+    public RadzenGrid<Product> productsGrid { get; set; }
+    public List<Product> ProductsInEdit { get; set; }
+    public List<Product> Inventory { get; set; }
+
+
+    public void EditRow(Product product)
+    {
+        productsGrid.EditRow(product);
+        ProductsInEdit.Add(product.Clone());
+    }
+
+    Product GetProductInEdit(int productId)
+    {
+        foreach (var item in ProductsInEdit)
+        {
+            if (item.ProductId == productId)
+            {
+                return item;
+            }
+        }
+
+        return null;
+    }
+
+    async void SaveRow(Product product)
+    {
+        UpdateProductOfStoreRequest request = new UpdateProductOfStoreRequest(Username, StoreId, product.ProductId, product.ProductDetails,
+        product.ProductPrice, product.ProductName, product.ProductCategory, "");
+        SuccessFailResponse response = await service.GetResponse<UpdateProductOfStoreRequest, SuccessFailResponse>(request);
+        if (response.Success)
+        {
+            Product inEdit = GetProductInEdit(product.ProductId);
+            int delta = product.Amount - inEdit.Amount;
+            if (delta != 0)
+            {
+                await ChangeProductAmount(product.ProductId, delta);
+            }
+            else
+            {
+                Msg = "Operation completed successfully";
+                IsError = false;
+            }
+
+            ProductsInEdit.Remove(inEdit);
+            await productsGrid.UpdateRow(product);
+        }
+        else
+        {
+            Msg = response.Error;
+            IsError = true;
+        }
+
+    }
+
+    void CancelEdit(Product product)
+    {
+        productsGrid.CancelEditRow(product);
+        Product inEdit = GetProductInEdit(product.ProductId);
+        product.ProductName = inEdit.ProductName;
+        product.ProductDetails = inEdit.ProductDetails;
+        product.ProductPrice = inEdit.ProductPrice;
+        product.ProductCategory = inEdit.ProductCategory;
+        product.Amount = inEdit.Amount;
+        ProductsInEdit.Remove(GetProductInEdit(product.ProductId));
+    }
+
+    async Task UpdateInventory()
+    {
+        InventoryData invData = await service.GetStoresInventory(StoreId);
+        Inventory = new List<Product>();
+        foreach (var item in invData.invProducts)
+        {
+            Product p = new Product();
+            p.ProductId = item.Item1.ProductId;
+            p.ProductName = item.Item1.Name;
+            p.ProductDetails = item.Item1.Details;
+            p.ProductPrice = item.Item1.Price;
+            p.ProductCategory = item.Item1.Category;
+            p.Amount = item.Item2;
+            Inventory.Add(p);
+        }
+    }
+
+    async void DeleteRow(Product product)
+    {
+        SuccessFailResponse response = await service.RemoveProductFromStore(StoreId, Username, product.ProductId);
+
+        if (response.Success)
+        {
+            Msg = "Operation completed successfully";
+            IsError = false;
+            Inventory.Remove(product);
+            Product pInEdit = GetProductInEdit(product.ProductId);
+            if (pInEdit != null)
+            {
+                ProductsInEdit.Remove(pInEdit);
+            }
+            productsGrid.Reload();
+        }
+        else
+        {
+            Msg = response.Error;
+            IsError = true;
+        }
+    }
+
+    private async Task ChangeProductAmount(int productId, int delta)
+    {
+        SuccessFailResponse response;
+        if (delta > 0)
+        {
+            response = await service.IncreaseProductAmount(StoreId, Username, productId, delta);
+        }
+        else
+        {
+            delta = -delta;
+            response = await service.DecreaseProductAmount(StoreId, Username, productId, delta);
+        }
+
+        if (response.Success)
+        {
+            Msg = "Operation completed successfully";
+            IsError = false;
+        }
+        else
+        {
+            Msg = response.Error;
+            IsError = true;
+        }
+
+    }
+}

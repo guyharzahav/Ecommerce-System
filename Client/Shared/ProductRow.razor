@@ -1,0 +1,12 @@
+﻿<td><a href=Stores/@StoreId/@Product.ProductId>@Product.Name</a></td>
+<td>@Product.Category</td>
+<td>@Product.Details</td>
+<td>@Product.Price&#8362</td>
+
+
+@code {
+    [Parameter]
+    public int StoreId { get; set; }
+    [Parameter]
+    public ProductData Product { get; set; }
+}

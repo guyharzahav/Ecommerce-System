@@ -1,0 +1,110 @@
+﻿@using Client.Data;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">eCommerce 14A</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/index" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Home
+            </NavLink>
+        </li>
+        <AuthorizeView Context="LoggedIn">
+            <Authorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="stores">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Stores
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="ShoppingCart">
+                        <span class="oi oi-basket" aria-hidden="true"></span> Shopping Cart
+                    </NavLink>
+                </li>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="SearchProducts">
+                        <span class="oi oi-zoom-in" aria-hidden="true"></span> Search Products
+                    </NavLink>
+                </li>
+
+                <AuthorizeView Roles="User" Context="User">
+                    <Authorized>
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="PurchaseHistory">
+                                <span class="oi oi-calculator" aria-hidden="true"></span> Your Purchase History
+                            </NavLink>
+                        </li>
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="NewStore">
+                                <span class="oi oi-basket" aria-hidden="true"></span> Open Store
+                            </NavLink>
+                        </li>
+                    </Authorized>
+
+                </AuthorizeView>
+                <AuthorizeView Roles="Seller" Context="Seller">
+                    <Authorized>
+
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="ManageStores">
+                                <span class="oi oi-list-rich" aria-hidden="true"></span> Manage Stores
+                            </NavLink>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+
+                <AuthorizeView Roles="Admin" Context="Admin">
+                    <Authorized>
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="BrowseSystemHistory">
+                                <span class="oi oi-badge" aria-hidden="true"></span> Browse System History
+                            </NavLink>
+                        </li>
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="StatisticsView">
+                                <span class="oi oi-graph" aria-hidden="true"></span> Statistics View
+                            </NavLink>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+            </Authorized>
+        </AuthorizeView>
+    </ul>
+</div>
+
+
+    
+
+
+    @*<NotAuthorized>
+
+        <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+            <ul class="nav flex-column">
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span> Home
+                    </NavLink>
+                </li>
+            </ul>
+        </div>
+
+    </NotAuthorized>*@
+
+
+
+
+@code {
+
+    private bool collapseNavMenu = true;
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "StoreId": 1,
+    "Owner": "Moshe",
+    "Products": [
+      {
+        "ProductId": 111,
+        "Name": "PName",
+        "Category": "Category1",
+        "Details": "Nothig will do",
+        "Price": 15.2,
+        "Amount": 5
+      }
+    ]
+  },
+  {
+    "StoreId": 2,
+    "Owner": "Yuri",
+    "Products": [
+      {
+        "ProductId": 222,
+        "Name": "PName2",
+        "Category": "Category2",
+        "Details": "This do all",
+        "Price": 16.3,
+        "Amount": 500
+      }
+    ]
+  }
+]

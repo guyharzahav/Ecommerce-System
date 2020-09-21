@@ -1,0 +1,85 @@
+﻿@page "/NewStore"
+
+<h3>Let's open your new store...</h3>
+
+<br/>
+
+<RadzenTemplateForm Data="@store" Submit="@((Store args) => { Submit(args); })">
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <RadzenFieldset Text="Store details">
+                <div class="row">
+
+                    <div class="col-md-4 align-items-center d-flex">
+                        <RadzenLabel Text="Store name" />
+                    </div>
+
+                    <div class="col-md-8">
+                        <RadzenTextBox @bind-Value="store.storeName" style="width: 100%;" Name="Store name" />
+                    </div>
+
+                </div>
+            </RadzenFieldset>
+        </div>
+    </div>
+
+
+
+    <div class="row justify-content-center">
+        <div class="col-md-6 d-flex align-items-end" style="margin-top: 16px;">
+            <RadzenButton ButtonType="ButtonType.Submit" Icon="save" Text="Save" />
+            <RadzenButton ButtonStyle="ButtonStyle.Light" Icon="cancel" style="display: inline-block; margin-left: 10px;" Text="Cancel" Click="@Cancel" />
+        </div>
+    </div>
+    <br/><br/>
+    <MyMessage Msg="@Msg" IsError="@IsError"/>
+
+
+</RadzenTemplateForm>
+
+    @code {
+
+        public string Msg { get; set; }
+        public bool IsError { get; set; }
+        private string loggedInUser { get; set; }
+
+        public class Store
+        {
+            public string storeName { get; set; }
+        }
+
+        Store store = new Store()
+        {
+        };
+
+        async private void Submit(Store store)
+        {
+            string storename = store.storeName;
+            loggedInUser = await((MyAuthenticationStateProvider)AuthenticationStateProvider).GetLoggedInUsername();
+            OpenStoreResponse response = await service.OpenNewStore(loggedInUser, storename);
+
+            if (response.Success)
+            {
+                Msg = "Store opened successfully";
+                IsError = false;
+                ((MyAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsSeller();
+            }
+
+            else
+            {
+                Msg = response.Error;
+                IsError = true;
+            }
+
+            StateHasChanged();
+        }
+
+        void Cancel()
+        {
+            store.storeName = ""; 
+        }
+
+
+    }

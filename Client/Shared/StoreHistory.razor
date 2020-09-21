@@ -1,0 +1,38 @@
+﻿<MyMessage Msg="@Msg" IsError="true" />
+@if (Baskets == null || Baskets.Count == 0)
+{
+    <p>No one bought from this store</p>
+}
+else
+{
+    @foreach (var basket in Baskets)
+    {
+        <RadzenFieldset Text="@GetTimeString(basket)">
+            <PurchaseBasket purchaseBasket="@basket" Modifiable="false" ShowUser="true" />
+        </RadzenFieldset>
+    }
+}
+
+
+    @code {
+        [Parameter]
+        public int StoreId { get; set; }
+        [Parameter]
+        public string Username { get; set; }
+
+        public List<PurchaseBasketData> Baskets { get; set; }
+        public string Msg { get; set; }
+
+        protected async override Task OnInitializedAsync()
+        {
+            GetStoreHistoryRequest request = new GetStoreHistoryRequest(Username, StoreId);
+            GetStoreHistoryResponse response = await service.GetResponse<GetStoreHistoryRequest, GetStoreHistoryResponse>(request);
+
+            Msg = response.Error;
+            Baskets = response.Baskets;
+        }
+        private string GetTimeString(PurchaseBasketData basket)
+        {
+            return "Purchase Time: " + basket.PurchaseTime.ToString();
+        }
+    }

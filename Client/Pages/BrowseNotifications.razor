@@ -1,0 +1,42 @@
+﻿@page "/notifications"
+@inject Client.Service.ECommerce14AService service
+@implements IDisposable
+
+@foreach (string notification in service.NotifierService.Notifications)
+{
+    <div class="col-10 alert alert-info row">
+        <div class="col-11" style="text-align:left">
+            <span>@notification</span>
+        </div>
+        <div class="col-1" style="text-align:right">
+            <a style="text-underline-position:below; cursor:pointer" @onclick="@(() => CloseNotification(notification))">x</a>
+        </div>
+    </div>
+}
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        service.NotifierService.OnNotifyReceived += OnNotify;
+    }
+
+    public async Task OnNotify(string notification)
+    {
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        service.NotifierService.OnNotifyReceived -= OnNotify;
+    }
+
+    public async void CloseNotification(string notification)
+    {
+        await service.NotifierService.Remove(notification);
+    }
+}

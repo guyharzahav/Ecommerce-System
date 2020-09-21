@@ -1,0 +1,26 @@
+﻿@inherits LayoutComponentBase
+@inject Client.Service.ECommerce14AService service
+@using System.Security.Claims;
+
+<div class="sidebar">
+    <NavMenu />
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="nav-mode"> Mode: @context.User.Claims.ToArray()[0].Value</div>
+            <NotifyIcon />
+        </Authorized>
+    </AuthorizeView>
+
+</div>
+
+<div class="main">
+    <div class="top-row px-4 auth">
+        <LoginDisplay />
+        <a href="https://66.media.tumblr.com/4605dd961e72292f818ca0ed32cdc70b/tumblr_mydm1r9Twn1qkzb3jo1_640.gifv" target="_blank">About</a>
+    </div>
+
+    <div class="content px-4">
+        @Body
+    </div>
+</div>

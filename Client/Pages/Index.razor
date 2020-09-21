@@ -1,0 +1,27 @@
+﻿@page "/index"
+
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Welcome back, @context.User.Identity.Name!</h1>
+    </Authorized>
+    <NotAuthorized>
+        <h1>Hello, Guest!</h1>
+    </NotAuthorized>
+
+</AuthorizeView>
+
+
+Welcome to 14A's eCommerce app.
+
+
+<SurveyPrompt Title="How is our store working for you?" />
+
+
+@code {
+    private void Click()
+    {
+        NavigationManager.NavigateTo("/NewStore");
+    }
+}
+

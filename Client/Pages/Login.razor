@@ -1,0 +1,85 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+
+
+    <div class="login-frame">
+        <div class="col-12 row">
+            <div style="margin-left: 50px; height: 50%">
+                <br /><br /><br /><br />
+                <img src="/resources/logo.png" height="300" width="300" alt="cart">
+            </div>
+
+            <div class="vertical-line"></div>
+
+            <EditForm Model="@user" OnValidSubmit="@ValidateUser">
+                <div>
+                    <br /><br /><br /><br /><br />
+                </div>
+                <div>
+                    <h3 style="font-weight:bold; color:purple">eCommerce 14A</h3>
+                </div>
+                <div>
+                    <br />
+                </div>
+                <div class="col-12 row">
+                    <input class="form-control col-12" @bind="user.Username" placeholder="Username" />
+                </div>
+                <br />
+                <div class="col-12 row">
+                    <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
+                </div>
+                <br />
+                <div class="col-12 row">
+                    <span class="col-12"></span>
+                    <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
+                    <a href="/register" class="register-btn">Register</a>
+                </div>
+                <br />
+                <div class="login-msg" style="text-align:left; font-weight:bold">
+                    <span>@LoginMesssage</span>
+                </div>
+                <div class="col-12 row">
+                        <button class="form-control btn btn-primary" @onclick="(()=>LoginAsGuest())">Continue as a Guest</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+    
+
+@code {
+
+    public UserData user { get; set; }
+    public string LoginMesssage { get; set; }
+
+    protected override void OnInitialized()
+    {
+        user = new UserData();
+    }
+
+    private async void ValidateUser()
+    {
+        LoginResponse response = await service.Login(user);
+
+        if (response.Success)
+        {
+            await ((MyAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticateUser(user, response.Permissions, response.IsAdmin);
+            service.SetPermissions(response.Permissions);
+            NavigationManager.NavigateTo("/index");
+
+        }
+        else
+        {
+            LoginMesssage = response.Error;
+        }
+    }
+
+    private async void LoginAsGuest()
+    {
+        LoginAsGuestResponse response = await service.LoginAsaGuest();
+        UserData guest = new UserData(response.Username,"");
+        ((MyAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAGuest(guest);
+        NavigationManager.NavigateTo("/index");
+
+    }
+}

@@ -1,0 +1,20 @@
+﻿@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Client
+@using Client.Shared
+@using Client.Service
+@using Client.Data;
+@using Server.Communication.DataObject.ThinObjects
+@using Server.Communication.DataObject
+@using Server.Communication.DataObject.Requests
+@using Server.Communication.DataObject.Responses
+@using Radzen
+@using Radzen.Blazor
+@inject Client.Service.ECommerce14AService service
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider

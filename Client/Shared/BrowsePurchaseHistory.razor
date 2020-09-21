@@ -1,0 +1,71 @@
+﻿@page "/PurchaseHistory"
+<AuthorizeView>
+    <Authorized>
+        <MyMessage Msg="@Msg" IsError="true" />
+        @if (PurchaseHistory == null || PurchaseHistory.Count == 0)
+        {
+            <p>Your history is empty</p>
+        }
+        else
+        {
+
+
+            @foreach (PurchaseData purchase in PurchaseHistory)
+            {
+            <RadzenFieldset Text="@GetTimeString(purchase.Cart)">
+                <table class="table">
+                    @foreach (PurchaseBasketData basketData in @purchase.Cart.baskets)
+                    {
+                        <tr>
+                            <td>
+                                <PurchaseBasket purchaseBasket="@basketData" Modifiable="false" ShowUser="false"></PurchaseBasket>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </RadzenFieldset>
+            }
+
+
+        }
+            </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string Username { get; set; }
+    public List<PurchaseData> PurchaseHistory { get; set; }
+    public string Msg { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (String.IsNullOrWhiteSpace(Username))
+        {
+            Username = await ((MyAuthenticationStateProvider)AuthenticationStateProvider).GetLoggedInUsername();
+        }
+
+        BuyerHistoryRequest request = new BuyerHistoryRequest(Username);
+        HistoryResponse response = await service.GetResponse<BuyerHistoryRequest, HistoryResponse>(request);
+        PurchaseHistory = response.HistoryItems;
+        Msg = response.Error;
+    }
+
+    private double GetPrice(CartData cart)
+    {
+        double price = 0;
+        if (cart != null && cart.baskets.Count != 0)
+        {
+            foreach (PurchaseBasketData purchaseBasket in cart.baskets)
+            {
+                price += purchaseBasket.Price;
+            }
+        }
+
+        return price;
+    }
+
+    private string GetTimeString(CartData cart)
+    {
+        return "Purchase Time: " + cart.baskets[0].PurchaseTime.ToString() + "Total Price: " + GetPrice(cart) + "₪";
+    }
+}

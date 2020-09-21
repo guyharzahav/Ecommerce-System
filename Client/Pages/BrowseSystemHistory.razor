@@ -1,0 +1,72 @@
+﻿@page "/BrowseSystemHistory"
+<AuthorizeView Roles="Admin" Context="Admin">
+    <Authorized>
+        <h3>Browse System History</h3>
+        <MyMessage Msg="@Error" IsError="true"/>
+        <RadzenTabs>
+            <Tabs>
+                <RadzenTabsItem Text="Stores">
+                    @if (PurchasesByStore == null || PurchasesByStore.Count == 0)
+                    {
+                        <RadzenLabel Text="There are no purchases to show"/>
+                    }
+                    else
+                    {
+                        @foreach (var purchase in PurchasesByStore)
+                        {
+                            <RadzenPanel AllowCollapse="true" Text="@purchase.StoreName" >
+                                <StoreHistory StoreId="@purchase.StoreId" Username="@Username"/>
+                            </RadzenPanel>
+                        }
+                    }
+                </RadzenTabsItem>
+                <RadzenTabsItem Text="Users">
+                    @if (PurchasesByUser == null || PurchasesByUser.Count == 0)
+                    {
+                        <RadzenLabel Text="There are no purchases to show" />
+                    }
+                    else
+                    {
+                        @foreach (var purchase in PurchasesByUser)
+                        {
+                            <RadzenPanel AllowCollapse="true" Text="@purchase">
+                                <BrowsePurchaseHistory Username="@purchase"/>
+                            </RadzenPanel>
+                        }
+                    }
+                </RadzenTabsItem>
+            </Tabs>
+        </RadzenTabs>
+    </Authorized>
+</AuthorizeView>
+
+
+@code {
+    public List<StoreData> PurchasesByStore { get; set; }
+    public List<string> PurchasesByUser { get; set; }
+    public string Username { get; set; }
+    public string Error { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        PurchasesByStore = null;
+        PurchasesByUser = null;
+
+        Username = await ((MyAuthenticationStateProvider)AuthenticationStateProvider).GetLoggedInUsername();
+        GetAllStoresHistoryRequest storesRequest = new GetAllStoresHistoryRequest(Username);
+        GetAllStoresHistoryResponse storesResponse = await service.GetResponse<GetAllStoresHistoryRequest, GetAllStoresHistoryResponse>(storesRequest);
+        if (storesResponse.Error != "")
+        {
+            Error = storesResponse.Error;
+        }
+        else
+        {
+            PurchasesByStore = storesResponse.Purchases;
+            GetAllUsersHistoryRequest usersRequest = new GetAllUsersHistoryRequest(Username);
+            GetAllUsersHistoryResponse usersResponse = await service.GetResponse<GetAllUsersHistoryRequest, GetAllUsersHistoryResponse>(usersRequest);
+
+            Error = usersResponse.Error;
+            PurchasesByUser = usersResponse.Purchases;
+        }
+    }
+}

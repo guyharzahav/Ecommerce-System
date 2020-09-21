@@ -1,0 +1,164 @@
+﻿<MyMessage Msg="@ErrorMsg" IsError="true"/>
+<div class="row">
+    <a class="col-sm-2 font-weight-bold" href=Stores/@purchaseBasket.Store.StoreId>@purchaseBasket.Store.StoreName</a>
+    <div class="col-sm-2">
+        <label>Price: @purchaseBasket.Price&#8362</label>
+    </div>
+    @if (ShowUser)
+    {
+        <div class="col-sm-2">
+            <label>Username: @purchaseBasket.Username</label>
+        </div>
+    }
+    <div class="col-sm-4">
+        <button class="form-control col-1 btn btn-primary" style="display: flex; align-items: center;justify-content: center; height:24px; padding: 1px 1px;" @onclick="@(e => Collapse = !Collapse)">@( Collapse ? "+" : "-")</button>
+    </div>
+</div>
+<div class="panel panel-default border @Collapsed">
+    <div class="row">
+        <table class="table col">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Details</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    @if (Modifiable)
+                    {
+                        <th>Actions</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (int productId in purchaseBasket.Product.Keys)
+                {
+                    <tr>
+                        <ProductRow StoreId="@StoreId" Product="@GetProduct(productId)" />
+                        <td>@purchaseBasket.Product[productId]</td>
+                        @if (Modifiable)
+                        {
+                            <th>
+                                <a style="text-underline-position:below; cursor:pointer; color:blue" @onclick="(() => Edit(productId))">Edit</a>  |
+                                <a style="text-underline-position:below; cursor:pointer; color:blue" @onclick="(() => Remove(productId))">Remove</a>
+                            </th>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (Modifiable)
+        {
+            <div class="col-md-4 @EditCollapsed" style="width:10%">
+                <OrderProduct StoreID="@StoreId" ProductID="@EditProductId" ProductInCart="true" SubmitEvent="@OnEditSubmit" MaxBound="@MaxAmount"
+                              CancelEvent="(() => EditProductVisible=false)" />
+            </div>
+        }
+    </div>
+    
+</div>
+
+@code {
+    [Parameter]
+    public PurchaseBasketData purchaseBasket { get; set; }
+    [Parameter]
+    public bool Modifiable { get; set; }
+    [Parameter]
+    public EventCallback OnProductChanged { get; set; }
+    [Parameter]
+    public bool ShowUser { get; set; }
+
+    public bool EditProductVisible { get; set; }
+    public bool Collapse { get; set; }
+
+    public int StoreId
+    {
+        get
+        {
+            return purchaseBasket.Store.StoreId;
+        }
+    }
+
+    public int EditProductId { get; set; }
+    public int MaxAmount { get; set; }
+
+    public string ErrorMsg { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Collapse = true;
+        EditProductVisible = false;
+        ErrorMsg = "";
+    }
+
+    public string Collapsed {
+        get
+        {
+            return Collapse ? "collapse" : "";
+        }
+    }
+
+    public string EditCollapsed
+    {
+        get
+        {
+            return EditProductVisible ? "" : "collapse";
+        }
+    }
+
+    public ProductData GetProduct(int productId)
+    {
+        foreach (var productTuple in purchaseBasket.Store.Products.invProducts)
+        {
+            if (productTuple.Item1.ProductId == productId)
+            {
+                return productTuple.Item1;
+            }
+        }
+
+        return null; // Reached?
+    }
+
+    public int GetMaxProductAmount()
+    {
+        foreach (var productTuple in purchaseBasket.Store.Products.invProducts)
+        {
+            if (productTuple.Item1.ProductId == EditProductId)
+            {
+                return productTuple.Item2;
+            }
+        }
+
+        return 0; // Reached?
+    }
+
+    public async void Remove(int productId)
+    {
+        RemoveProductFromCartRequest request = new RemoveProductFromCartRequest(purchaseBasket.Username, purchaseBasket.Store.StoreId, productId);
+        RemoveProductFromCartResponse response = await service.GetResponse<RemoveProductFromCartRequest, RemoveProductFromCartResponse>(request);
+        await OnProductChanged.InvokeAsync(null);
+    }
+
+    public void Edit(int productId)
+    {
+        EditProductId = productId;
+        MaxAmount = GetMaxProductAmount();
+        EditProductVisible = true;
+        StateHasChanged();
+    }
+
+    public async void OnEditSubmit(SuccessFailResponse response)
+    {
+        if (response.Success)
+        {
+            EditProductVisible = false;
+            await OnProductChanged.InvokeAsync(null);
+        } 
+        else
+        {
+            ErrorMsg = response.Error;
+        }
+    }
+
+}

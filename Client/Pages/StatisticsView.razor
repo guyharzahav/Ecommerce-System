@@ -1,0 +1,101 @@
+﻿@page "/StatisticsView"
+@using Server.UserComponent.DomainLayer
+
+<AuthorizeView Roles="Admin" Context="Admin">
+    <Authorized>
+        <h3>Statistics View</h3>
+        <div class="row">
+            <div class="col-3" style="margin-bottom:4px;">
+                <div class="col-md-4 align-items-center d-flex">
+                    <RadzenLabel Text="Start Date" />
+                </div>
+                <div class="col-md-8">
+                    <RadzenDatePicker style="width: 100%;" Name="StartDate" @bind-Value="StartDate" Change="SendRequest" />
+                </div>
+            </div>
+            <div class="col-3" style="margin-bottom:4px;">
+                <div class="col-md-4 align-items-center d-flex">
+                    <RadzenLabel Text="End Date" />
+                </div>
+                <div class="col-md-8">
+                    <RadzenDatePicker style="width: 100%;" Name="EndDate" @bind-Value="EndDate" Change="SendRequest" />
+                </div>
+            </div>
+        </div>
+        
+
+        @if (HasStatistic())
+        {
+        <div class="row">
+            <div class="col-md-6 col-sm-12 p-4">
+                <RadzenChart>
+                    <RadzenPieSeries Data="@StatisticsData" Title="Statistics" CategoryProperty="UserType" ValueProperty="Amount" />
+                </RadzenChart>
+            </div>
+        </div>
+        }
+        else 
+        {
+        <p>No data to show</p>
+        } 
+    </Authorized>
+</AuthorizeView>
+@code {
+    public class StatItem
+    {
+        public string UserType { get; set; }
+        public double Amount { get; set; }
+
+        public StatItem(string name)
+        {
+            UserType = name;
+            Amount = 0;
+        }
+    }
+
+    public string Username { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
+    public StatItem[] StatisticsData { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Username = await((MyAuthenticationStateProvider)AuthenticationStateProvider).GetLoggedInUsername();
+
+        StartDate = null;
+        EndDate = null;
+        service.NotifierService.OnStatisticsReceived += UpdateStatistics;
+        StatisticsData = new StatItem[5];
+        StatisticsData[0] = new StatItem("Guest Visitors");
+        StatisticsData[1] = new StatItem("Regular Visitors");
+        StatisticsData[2] = new StatItem("Managers Visitors");
+        StatisticsData[3] = new StatItem("Owners Visitors");
+        StatisticsData[4] = new StatItem("Administrators Visitors");
+
+        await SendRequest();
+    }
+
+    private bool HasStatistic()
+    {
+        return StatisticsData != null && StatisticsData[4] != null && (StatisticsData[0].Amount > 0
+            || StatisticsData[1].Amount > 0 || StatisticsData[2].Amount > 0
+            || StatisticsData[3].Amount > 0 || StatisticsData[4].Amount > 0);
+    }
+
+    public async Task SendRequest()
+    {
+        await service.SendStatisticsRequest(Username, StartDate, EndDate);
+    }
+
+    public async Task UpdateStatistics(Statistic_View context)
+    {
+        StatisticsData[0].Amount = context.GuestVisitors;
+        StatisticsData[1].Amount = context.RegularVisistors;
+        StatisticsData[2].Amount = context.ManagersVisitors;
+        StatisticsData[3].Amount = context.OwnersVisitors;
+        StatisticsData[4].Amount = context.AdministratorsVisitors;
+
+        await InvokeAsync(() => StateHasChanged());
+    }
+
+}

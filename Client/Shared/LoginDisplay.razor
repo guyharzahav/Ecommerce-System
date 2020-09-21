@@ -1,0 +1,35 @@
+﻿@using Client.Data
+@using Server.Communication.DataObject
+@inject ECommerce14AService service
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView Roles="User">
+    <Authorized>
+        <a href="Identity/Account/Manage">Hello, @context.User.Identity.Name!</a>
+        <button class="nav-link btn btn-link" @onclick="(()=>Logout(context.User.Identity.Name))">Log out</button>
+    </Authorized>
+    <NotAuthorized>
+        <a href="register">Register</a>
+        <a href="/">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+
+    public async void Logout(string username)
+    {
+        LogoutResponse response = await service.Logout(username);
+
+        if (response.Success)
+        {
+            ((MyAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsLoggedOut();
+            NavigationManager.NavigateTo("/index");
+        }
+
+        else
+            Console.WriteLine("Logout failed: " + response.Error);
+
+    }
+}

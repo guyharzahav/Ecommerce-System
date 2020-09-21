@@ -1,0 +1,49 @@
+﻿@page "/Stores"
+
+<h1>StoresView</h1>
+
+@if (stores == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @if (stores.Count == 0)
+    {
+        <p><em>Sorry, there are no available stores at this moment :(</em></p>
+    }
+    else
+    {
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Store name</th>
+                <th>Owner of the store</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var store in stores)
+            {
+                <tr>
+                    <td><a href=Stores/@store.StoreId>@store.StoreName</a></td>
+                    <td>@ListToString(store.Owners)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+}
+
+@code {
+    private List<StoreData> stores;
+
+    async protected override void OnInitialized()
+    {
+        stores = await service.GetAllActiveStores();
+    }
+
+    private string ListToString(List<string> list)
+    {
+        return String.Join(", ", list.ToArray());
+    }
+}
